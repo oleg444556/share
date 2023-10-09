@@ -1,0 +1,4 @@
+flake8==6.1.0
+pep8-naming==0.13.3
+flake8-import-order==0.18.2
+black==23.9.1

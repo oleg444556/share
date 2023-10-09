@@ -1,0 +1,45 @@
+stages:
+  - linting
+  - test
+
+
+flake8:
+  stage: linting
+  image: registry.gitlab.com/pipeline-components/flake8:latest
+  script:
+    - pip install flake8 flake8-import-order pep8-naming flake8-quotes
+    - flake8 --enable-extensions=flake8_import_order,pep8-naming,flake8-quotes 
+  only:
+    - merge_requests
+    - main
+
+black_check:
+  stage: linting
+  image: registry.gitlab.com/pipeline-components/black:latest
+  script:
+    - black --check --config .black --skip-string-normalization .
+  only:
+    - merge_requests
+    - main
+
+django-tests:
+  stage: test
+  image: python:3.10
+  before_script:
+    - python3 -m venv myenv  
+    - source myenv/bin/activate
+    - pip3 install -r requirements/prod.txt
+  script:
+    - cd lyceum
+    - python3 manage.py test
+  only:
+    - merge_requests
+    - main
+
+
+
+
+
+
+
+

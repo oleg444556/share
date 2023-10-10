@@ -1,29 +1,27 @@
-from os import getenv
+import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+env = environ.Env(
+    DJANGO_DEBUG=(bool, True),
+    DJANGO_SECRET_KEY=(str, "fake_secret_key"),
+    DJANGO_ALLOWED_HOSTS=(list, ["*"]),
+)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()
-
-SECRET_KEY = getenv("DJANGO_SECRET_KEY", "default_secret_key")
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-debug_env = getenv("DJANGO_DEBUG", True)
-DEBUG = bool(debug_env)
+DEBUG = env("DJANGO_DEBUG")
 
-DEFAULT_ALLOWED_HOSTS = "127.0.0.1,localhost"
-hosts = getenv("DJANGO_ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS)
-ALLOWED_HOSTS = hosts.split(",")
-
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
+print(ALLOWED_HOSTS)
 # Application definition
 
 INSTALLED_APPS = [

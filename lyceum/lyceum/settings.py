@@ -13,7 +13,7 @@ env = environ.Env(
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
 )
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 

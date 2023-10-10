@@ -1,2 +1,2 @@
--r requirements/prod.txt
--r requirements/test.txt
+-r prod.txt
+-r test.txt

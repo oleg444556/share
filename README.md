@@ -10,9 +10,9 @@ cd 214610-the-pimp-47230
 
 - Создайте файл .env в корневой директории проекта и установите необходимые переменные окружения
 ```
-DJANGO_SECRET_KEY = "secret"
-DJANGO_DEBUG = True
-DJANGO_ALLOWED_HOSTS = 127.0.0.1
+DJANGO_SECRET_KEY="secret"
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
 ```
 
 ### Запуск проекта в dev-режиме

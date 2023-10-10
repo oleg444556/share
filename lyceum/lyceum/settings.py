@@ -2,7 +2,6 @@ from os import getenv
 from pathlib import Path
 
 from dotenv import load_dotenv
-import debug_toolbar
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -14,14 +13,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 load_dotenv()
+
 SECRET_KEY = getenv("DJANGO_SECRET_KEY", "default_secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 debug_env = getenv("DJANGO_DEBUG", True)
 DEBUG = bool(debug_env)
 
-ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
-
+DEFAULT_ALLOWED_HOSTS = "127.0.0.1,localhost"
+hosts = getenv("DJANGO_ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS)
+ALLOWED_HOSTS = hosts.split(",")
 
 # Application definition
 

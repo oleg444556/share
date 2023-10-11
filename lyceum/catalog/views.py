@@ -8,3 +8,7 @@ def item_list(request):
 
 def item_detail(request, pk):
     return HttpResponse("<body>Подробно элемент</body>")
+
+
+def catalog_int_pos_num(request, num):
+    return HttpResponse(f"<body>{num}</body>")

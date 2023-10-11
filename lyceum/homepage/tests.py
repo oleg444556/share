@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.test import Client, TestCase
 
 
@@ -8,12 +10,8 @@ class StaticUrlTests(TestCase):
 
     def test_coffee_endpoint_code(self):
         response = Client().get("/coffee/")
-        self.assertEqual(response.status_code, 418)
+        self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
-    def test_coffee(self):
+    def test_coffee_content(self):
         response = Client().get("/coffee/")
         self.assertEqual(response.content, "Я чайник".encode())
-
-    def test_coffee_endpoint_content(self):
-        response = Client().get("/coffee/")
-        self.assertContains(response, "Я чайник", status_code=418)

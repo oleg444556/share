@@ -10,7 +10,10 @@ class StaticUrlTests(TestCase):
         response = Client().get("/coffee/")
         self.assertEqual(response.status_code, 418)
 
+    def test_coffee(self):
+        response = Client().get("/coffee/")
+        self.assertEqual(response.content, "Я чайник".encode())
+
     def test_coffee_endpoint_content(self):
         response = Client().get("/coffee/")
-        text = response.content.decode("utf-8")
-        self.assertEqual(text, "<body>Я чайник</body>")
+        self.assertContains(response, "Я чайник", status_code=418)

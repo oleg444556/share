@@ -7,4 +7,4 @@ def home(request):
 
 
 def coffee_endpoint(request):
-    return HttpResponse("<body>Я чайник</body>", status=418)
+    return HttpResponse("Я чайник", status=418)

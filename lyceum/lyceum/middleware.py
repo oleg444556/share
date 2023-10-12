@@ -3,19 +3,12 @@ from django.conf import settings
 
 class RussianWordsReverseMiddleware:
     _call_count = 0
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            instance = super().__new__(cls)
-            cls._instance = instance
-        return cls._instance
 
     def __init__(self, get_response):
         self._get_response = get_response
 
     def __call__(self, request, *args, **kwargs):
-        self._call_count += 1
+        self._plus_add_count()
         response = self._get_response(request, *args, **kwargs)
         allowreverse = settings.ALLOW_REVERSE
         if self._call_count % 10 == 0 and allowreverse:
@@ -23,6 +16,10 @@ class RussianWordsReverseMiddleware:
             text = self._reverse_all_russian_words(text)
             response.content = text.encode("utf-8")
         return response
+
+    @classmethod
+    def _plus_add_count(cls):
+        cls._call_count += 1
 
     @staticmethod
     def _reverse_all_russian_words(string):

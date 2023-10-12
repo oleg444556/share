@@ -12,7 +12,7 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, True),
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
-    DJANGO_ALLOW_REVERSE=(str, "false"),
+    DJANGO_ALLOW_REVERSE=(str, "y"),
 )
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 

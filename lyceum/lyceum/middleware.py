@@ -2,20 +2,26 @@ from django.conf import settings
 
 
 class RussianWordsReverseMiddleware:
-    _CALL_COUNT = 0
+    _call_count = 0
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            instance = super().__new__(cls)
+            cls._instance = instance
+        return cls._instance
 
     def __init__(self, get_response):
         self._get_response = get_response
 
-    def __call__(self, request):
-        self._CALL_COUNT += 1
-        response = self._get_response(request)
-        allowreverse = getattr(settings, "ALLOW_REVERSE", False)
-        if self._CALL_COUNT == 10 and allowreverse:
+    def __call__(self, request, *args, **kwargs):
+        self._call_count += 1
+        response = self._get_response(request, *args, **kwargs)
+        allowreverse = settings.ALLOW_REVERSE
+        if self._call_count % 10 == 0 and allowreverse:
             text = response.content.decode("utf-8")
             text = self._reverse_all_russian_words(text)
             response.content = text.encode("utf-8")
-            self._CALL_COUNT = 0
         return response
 
     @staticmethod

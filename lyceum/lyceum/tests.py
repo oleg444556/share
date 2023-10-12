@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.test import Client, TestCase, override_settings
+from django.test import Client, override_settings, TestCase
 
 
 class RussianWorldsMiddlewareTests(TestCase):

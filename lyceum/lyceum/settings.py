@@ -12,6 +12,7 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, True),
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
+    DJANGO_ALLOW_REVERSE=(str, "false"),
 )
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -21,7 +22,9 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DJANGO_DEBUG")
 
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
-print(ALLOWED_HOSTS)
+
+TRUE_DEF = ("", "true", "True", "yes", "YES", "1", "y")
+ALLOW_REVERSE = True if env("DJANGO_ALLOW_REVERSE") in TRUE_DEF else False
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "lyceum.middleware.RussianWordsReverseMiddleware",
 ]
 
 INTERNAL_IPS = [

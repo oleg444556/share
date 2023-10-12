@@ -8,7 +8,7 @@ class RussianWordsReverseMiddleware:
         self._get_response = get_response
 
     def __call__(self, request, *args, **kwargs):
-        self._plus_add_count()
+        RussianWordsReverseMiddleware._call_count += 1
         response = self._get_response(request, *args, **kwargs)
         allowreverse = settings.ALLOW_REVERSE
         if self._call_count % 10 == 0 and allowreverse:
@@ -16,10 +16,6 @@ class RussianWordsReverseMiddleware:
             text = self._reverse_all_russian_words(text)
             response.content = text.encode("utf-8")
         return response
-
-    @classmethod
-    def _plus_add_count(cls):
-        cls._call_count += 1
 
     @staticmethod
     def _reverse_all_russian_words(string):

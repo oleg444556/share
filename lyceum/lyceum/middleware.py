@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 
 
@@ -19,19 +21,9 @@ class RussianWordsReverseMiddleware:
 
     @staticmethod
     def _reverse_all_russian_words(string):
-        result = []
-        stack = []
-        russian_letters_set = set()
-        for letter_code in range(ord("а"), ord("я") + 1):
-            russian_letters_set.add(chr(letter_code))
-        for letter_code in range(ord("А"), ord("Я") + 1):
-            russian_letters_set.add(chr(letter_code))
-        for letter in string:
-            if letter in russian_letters_set:
-                stack.append(letter)
-            else:
-                result += stack[::-1]
-                stack.clear()
-                result.append(letter)
-        result += stack[::-1]
-        return "".join(result)
+        def reverse_word(match):
+            return match.group()[::-1]
+
+        pattern = r"[А-Яа-я]+"
+        result = re.sub(pattern, reverse_word, string)
+        return result

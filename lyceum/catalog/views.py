@@ -12,3 +12,7 @@ def item_detail(request, pk):
 
 def catalog_int_pos_num(request, num):
     return HttpResponse(f"<body>{num}</body>")
+
+
+def catalog_converter_int_pos(request, num):
+    return HttpResponse(f"<body>{num}</body>")

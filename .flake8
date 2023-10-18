@@ -1,3 +1,6 @@
 [flake8]
 quotes = double
 import-order-style = google
+exclude = */migrations/
+max-complexity = 10
+	

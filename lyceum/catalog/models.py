@@ -3,25 +3,37 @@ import re
 import django.core.exceptions
 import django.core.validators
 import django.db
+from django.utils.deconstruct import deconstructible
 
 import core.models
 
 
-def validate_must_contain(value):
-    pattern = r"\b(превосходно|роскошно)\b"
-    if not re.search(pattern, value.lower()):
-        raise django.core.exceptions.ValidationError(
-            "В тексте должно быть слово 'превосходно' или 'роскошно'"
+@deconstructible
+class ValidateMustContain:
+    def __init__(self, *args, foo=1):
+        self.validate_words = args
+        self.foo = foo
+
+    def __call__(self, value):
+        pattern = (
+            r"\b(" + "|".join(map(re.escape, self.validate_words)) + r")\b"
         )
+        if not re.search(pattern, value.lower()):
+            raise django.core.exceptions.ValidationError(
+                f"В тексте должны быть слова {self.validate_words}"
+            )
+
+    def __eq__(self, other):
+        return self.foo == other.foo
 
 
 class Item(core.models.NamePulbishedModel):
     text = django.db.models.TextField(
         "текст",
         help_text="Описание товара, обязательно должно входить одно из слов:"
-        "превосходно, роскошное",
+        "превосходно, роскошно",
         validators=[
-            validate_must_contain,
+            ValidateMustContain("превосходно", "роскошно", "унинянимонини"),
         ],
     )
     tags = django.db.models.ManyToManyField("tag", verbose_name="тэги")

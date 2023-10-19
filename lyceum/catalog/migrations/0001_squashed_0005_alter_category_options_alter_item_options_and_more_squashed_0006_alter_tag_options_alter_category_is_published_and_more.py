@@ -147,7 +147,7 @@ class Migration(migrations.Migration):
                     "text",
                     models.TextField(
                         help_text="Описание товара, обязательно должно входить одно из слов:превосходно, роскошное",
-                        validators=[catalog.models.validate_must_contain],
+                        validators=[catalog.models.ValidateMustContain],
                         verbose_name="текст",
                     ),
                 ),

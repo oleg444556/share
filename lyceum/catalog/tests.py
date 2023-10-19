@@ -121,3 +121,16 @@ class ModelTests(django.test.TestCase):
         self.assertEqual(
             catalog.models.Category.objects.count(), category_count
         )
+
+    def test_able_to_create_must_contain_monini(self):
+        item_count = catalog.models.Item.objects.count()
+        self.item = catalog.models.Item(
+            name="Тестовый товар",
+            category=self.category,
+            text="Нет слова унинянимонини",
+        )
+        self.item.full_clean()
+        self.item.save()
+        self.item.tags.add(ModelTests.tag)
+
+        self.assertEqual(catalog.models.Item.objects.count(), item_count + 1)

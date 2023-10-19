@@ -12,11 +12,11 @@ class StaticUrlTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_coffee_endpoint_code(self):
-        response = Client().get(reverse(views.coffee_endpoint))
+        response = Client().get("/coffee/")
         self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
     def test_coffee_content(self):
         responses = set()
-        responses.add(Client().get(reverse(views.coffee_endpoint)).content)
-        responses.add(Client().get(reverse(views.coffee_endpoint)).content)
+        responses.add(Client().get("/coffee/").content)
+        responses.add(Client().get("/coffee/").content)
         self.assertIn("Я чайник".encode(), responses)

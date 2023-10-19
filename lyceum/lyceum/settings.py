@@ -18,7 +18,7 @@ TRUE_DEF = ("", "true", "True", "yes", "YES", "1", "y")
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
-DEBUG = True if env("DJANGO_DEBUG") in TRUE_DEF else False
+DEBUG = True if str(env("DJANGO_DEBUG")) in TRUE_DEF else False
 
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 

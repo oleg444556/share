@@ -1,14 +1,14 @@
 import re
 
-import core.models
 import django.core.exceptions
 import django.core.validators
 import django.db
 
+import core.models
+
 
 def validate_must_contain(value):
-    words = ("превосходно", "роскошно")
-    pattern = r"\b" + "|".join(map(re.escape, words)) + r"\b"
+    pattern = r"\b(превосходно|роскошно)\b"
     if not re.search(pattern, value.lower()):
         raise django.core.exceptions.ValidationError(
             "В тексте должно быть слово 'превосходно' или 'роскошно'"
@@ -17,17 +17,18 @@ def validate_must_contain(value):
 
 class Item(core.models.NamePulbishedModel):
     text = django.db.models.TextField(
-        "Текст",
+        "текст",
         help_text="Описание товара, обязательно должно входить одно из слов:"
         "превосходно, роскошное",
         validators=[
             validate_must_contain,
         ],
     )
-    tags = django.db.models.ManyToManyField("tag")
+    tags = django.db.models.ManyToManyField("tag", verbose_name="тэги")
     category = django.db.models.ForeignKey(
         "category",
         on_delete=django.db.models.CASCADE,
+        verbose_name="категория",
     )
 
     class Meta:
@@ -40,7 +41,7 @@ class Item(core.models.NamePulbishedModel):
 
 class Tag(core.models.NamePulbishedModel):
     slug = django.db.models.SlugField(
-        "Слаг",
+        "слаг",
         help_text="Максимальная длина - 200 символов, уникальное значение "
         "в рамках таблицы, только цифры, буквы латиницы и символы - и _",
         max_length=200,
@@ -48,8 +49,8 @@ class Tag(core.models.NamePulbishedModel):
     )
 
     class Meta:
-        verbose_name = "тэг"
-        verbose_name_plural = "тэги"
+        verbose_name = "тег"
+        verbose_name_plural = "теги"
 
     def __str__(self):
         return self.name
@@ -57,17 +58,18 @@ class Tag(core.models.NamePulbishedModel):
 
 class Category(core.models.NamePulbishedModel):
     slug = django.db.models.SlugField(
-        "Слаг",
+        "слаг",
         help_text="Максимальная длина 200 символов, уникальное значение"
         "рамках таблицы, только цифры буквы латиницы и символы - и _",
         max_length=200,
         unique=True,
     )
     weight = django.db.models.SmallIntegerField(
-        "Вес",
-        help_text="От 0 до 32767, значение по-умолчанию 100, целое число",
+        "вес",
+        help_text="От 1 до 32767, значение по-умолчанию 100, целое число",
         validators=[
-            django.core.validators.MinValueValidator(0),
+            django.core.validators.MinValueValidator(1),
+            django.core.validators.MaxValueValidator(32767),
         ],
         default=100,
     )

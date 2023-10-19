@@ -3,10 +3,13 @@ import django.db
 
 class NamePulbishedModel(django.db.models.Model):
     name = django.db.models.CharField(
-        "Название", help_text="Не более 150 символов", max_length=150
+        "название",
+        help_text="Не более 150 символов",
+        max_length=150,
+        unique=True,
     )
     is_published = django.db.models.BooleanField(
-        "Опубликовано",
+        "опубликовано",
         help_text="Статус товара",
         default=True,
     )

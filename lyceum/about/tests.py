@@ -1,6 +1,7 @@
-from about import views
 from django.test import Client, TestCase
 from django.urls import reverse
+
+from about import views
 
 
 class StaticUrlTests(TestCase):

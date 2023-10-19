@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.test import Client, override_settings, TestCase
 from django.urls import reverse
+
 from homepage import views
 
 

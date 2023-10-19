@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 env = environ.Env(
-    DJANGO_DEBUG=(bool, False),
+    DJANGO_DEBUG=(bool, True),
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
     DJANGO_ALLOW_REVERSE=(str, "y"),

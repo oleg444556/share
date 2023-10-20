@@ -55,8 +55,17 @@ class Tag(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+    def full_clean(self, *args, **kwargs):
+        try:
+            self.normalized_name = catalog.utils.name_slugify(self.name)
+            super().full_clean(*args, **kwargs)
+        except django.db.IntegrityError:
+            raise django.core.exceptions.ValidationError(
+                "Тег с похожим именем уже существует"
+            )
+
     def save(self, *args, **kwargs):
-        self.normalized_name = catalog.utils.name_slugify(self.name)
+        self.full_clean()
         super().save(*args, **kwargs)
 
 
@@ -92,6 +101,15 @@ class Category(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+    def full_clean(self, *args, **kwargs):
+        try:
+            self.normalized_name = catalog.utils.name_slugify(self.name)
+            super().full_clean(*args, **kwargs)
+        except django.db.IntegrityError:
+            raise django.core.exceptions.ValidationError(
+                "Категория с похожим именем уже существует"
+            )
+
     def save(self, *args, **kwargs):
-        self.normalized_name = catalog.utils.name_slugify(self.name)
+        self.full_clean()
         super().save(*args, **kwargs)

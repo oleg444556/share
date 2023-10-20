@@ -3,14 +3,14 @@ from django.template.defaultfilters import slugify as django_slugify
 
 alphabet = {
     "а": "a",
-    "б": "bi",
+    "б": "v",
     "в": "b",
     "г": "g",
     "д": "d",
     "е": "e",
-    "ё": "yo",
+    "ё": "q",
     "ж": "zh",
-    "з": "z",
+    "з": "q",
     "и": "i",
     "й": "j",
     "к": "k",
@@ -18,7 +18,7 @@ alphabet = {
     "м": "m",
     "н": "h",
     "о": "o",
-    "п": "pi",
+    "п": "w",
     "р": "p",
     "с": "c",
     "т": "t",
@@ -33,6 +33,9 @@ alphabet = {
     "э": "e",
     "ю": "yu",
     "я": "ya",
+    " ": "",
+    "_": "",
+    "-": "",
 }
 
 

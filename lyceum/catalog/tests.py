@@ -255,7 +255,7 @@ class ModelTests(django.test.TestCase):
         with self.assertRaises(django.db.IntegrityError):
             with django.db.transaction.atomic():
                 self.cat1 = catalog.models.Category(
-                    name="Буква С", slug="russkay"
+                    name="Б у к в а <.,?/-_    С", slug="russkay"
                 )
                 self.cat1.full_clean()
                 self.cat1.save()

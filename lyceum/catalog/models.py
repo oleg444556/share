@@ -1,6 +1,7 @@
 import django.core.validators
 import django.db
 
+import catalog.utils
 import catalog.validators
 import core.models
 
@@ -32,6 +33,13 @@ class Item(core.models.NamePulbishedModel):
 
 
 class Tag(core.models.NamePulbishedModel):
+    normalized_name = django.db.models.SlugField(
+        "нормализованное имя",
+        help_text="Нормализованное имя необходимое для "
+        "исключения похожих названий",
+        unique=True,
+        editable=False,
+    )
     slug = django.db.models.SlugField(
         "слаг",
         help_text="Максимальная длина - 200 символов, уникальное значение "
@@ -47,8 +55,19 @@ class Tag(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.normalized_name = catalog.utils.name_slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Category(core.models.NamePulbishedModel):
+    normalized_name = django.db.models.SlugField(
+        "нормализованное имя",
+        help_text="Нормализованное имя необходимое для "
+        "исключения похожих названий",
+        unique=True,
+        editable=False,
+    )
     slug = django.db.models.SlugField(
         "слаг",
         help_text="Максимальная длина 200 символов, уникальное значение"
@@ -72,3 +91,7 @@ class Category(core.models.NamePulbishedModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.normalized_name = catalog.utils.name_slugify(self.name)
+        super().save(*args, **kwargs)

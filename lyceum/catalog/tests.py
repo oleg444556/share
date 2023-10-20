@@ -1,4 +1,5 @@
 import django.core.exceptions
+import django.db
 import django.test
 from django.urls import reverse
 
@@ -134,3 +135,137 @@ class ModelTests(django.test.TestCase):
         self.item.tags.add(ModelTests.tag)
 
         self.assertEqual(catalog.models.Item.objects.count(), item_count + 1)
+
+    # Тесты для всех схожих букв в алфавитах
+    def test_unable_to_create_tags_similar_names_x(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="х", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="X", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_p(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="р", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="p", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_k(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="К", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="K", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_h(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="Н", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="H", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_a(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="а", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="a", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_c(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="с", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="c", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_b(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="В", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="B", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    def test_unable_to_create_tags_similar_names_e(self):
+        tags_count = catalog.models.Tag.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.tag1 = catalog.models.Tag(name="е", slug="russkay")
+                self.tag1.full_clean()
+                self.tag1.save()
+            with django.db.transaction.atomic():
+                self.tag2 = catalog.models.Tag(name="e", slug="english")
+                self.tag2.full_clean()
+                self.tag2.save()
+
+        self.assertEqual(tags_count + 1, catalog.models.Tag.objects.count())
+
+    # Невозможность создать категории с похожими именами
+    def test_unable_to_create_categ_similar_names(self):
+        category_count = catalog.models.Category.objects.count()
+        with self.assertRaises(django.db.IntegrityError):
+            with django.db.transaction.atomic():
+                self.cat1 = catalog.models.Category(
+                    name="Буква С", slug="russkay"
+                )
+                self.cat1.full_clean()
+                self.cat1.save()
+            with django.db.transaction.atomic():
+                self.cat2 = catalog.models.Category(
+                    name="Буква C", slug="english"
+                )
+                self.cat2.full_clean()
+                self.cat2.save()
+
+        self.assertEqual(
+            category_count + 1, catalog.models.Category.objects.count()
+        )

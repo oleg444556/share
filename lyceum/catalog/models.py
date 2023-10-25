@@ -29,11 +29,6 @@ class Item(core.models.NamePulbishedModel):
         on_delete=django.db.models.CASCADE,
         verbose_name="категория",
     )
-    main_image = django.db.models.ImageField(
-        "главное изображение",
-        upload_to="catalog/",
-        null=True,
-    )
 
     class Meta:
         verbose_name = "товар"
@@ -42,18 +37,40 @@ class Item(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+
+class MainImage(django.db.models.Model):
+    main_item = django.db.models.OneToOneField(
+        "Item",
+        on_delete=django.db.models.CASCADE,
+        null=True,
+        verbose_name="главное изображение",
+    )
+    image = django.db.models.ImageField(
+        "главное изображение",
+        upload_to="catalog/",
+        null=True,
+        blank=True,
+        help_text="Загрузите главное изображение товара",
+    )
+
     def get_image_300x300(self):
         return sorl.thumbnail.get_thumbnail(
-            self.main_image,
+            self.image,
             "300x300",
             quality=51,
         )
 
     def image_tmb(self):
-        if self.main_image:
+        if MainImage.objects.get(main_item_id=self.id).image:
             return django.utils.safestring.mark_safe(
-                f"<img src='{self.main_image.url}' width='50'",
+                "<img src="
+                f"'{MainImage.objects.get(main_item_id=self.id).image.url}'"
+                "width='50'>",
             )
+
+    class Meta:
+        verbose_name = "главное изображение"
+        verbose_name_plural = "главные изображения"
 
     image_tmb.short_description = "превью"
     image_tmb.allow_tags = True
@@ -68,6 +85,7 @@ class ItemImage(django.db.models.Model):
     )
     image = django.db.models.ImageField(
         "изображение к товару",
+        help_text="Загрузите изображения в галлерею товара",
         upload_to="catalog/",
         null=True,
     )

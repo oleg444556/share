@@ -11,6 +11,11 @@ class ItemInline(admin.TabularInline):
     extra = 1
 
 
+class MainImageInline(admin.TabularInline):
+    model = catalog.models.MainImage
+    extra = 1
+
+
 @admin.register(catalog.models.Tag)
 class TagAdmin(admin.ModelAdmin):
     pass
@@ -25,11 +30,12 @@ class CategoryAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
     inlines = [
         ItemInline,
+        MainImageInline,
     ]
     list_display = (
         catalog.models.Item.name.field.name,
         catalog.models.Item.is_published.field.name,
-        "image_tmb",
+        catalog.models.MainImage.image_tmb,
     )
     list_editable = (catalog.models.Item.is_published.field.name,)
     list_display_links = (catalog.models.Item.name.field.name,)

@@ -76,7 +76,6 @@ class ModelTests(django.test.TestCase):
                 name="Тестовый товар",
                 category=self.category,
                 text="qwertyроскошно",
-                main_image="none",
             )
             self.item.full_clean()
             self.item.save()
@@ -90,7 +89,6 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова роскошно",
-            main_image="none",
         )
         self.item.full_clean()
         self.item.save()
@@ -104,7 +102,6 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова превосходно",
-            main_image="none",
         )
         self.item.full_clean()
         self.item.save()
@@ -134,7 +131,6 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова унинянимонини",
-            main_image="none",
         )
         self.item.full_clean()
         self.item.save()

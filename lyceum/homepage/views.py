@@ -1,9 +1,14 @@
 from django.http import HttpResponse
+import django.shortcuts
+
+__all__ = ["coffee_endpoint", "home"]
 
 
 # Create your views here.
 def home(request):
-    return HttpResponse("<body>Главная</body>")
+    template = "homepage/home.html"
+    context = {}
+    return django.shortcuts.render(request, template, context)
 
 
 def coffee_endpoint(request):

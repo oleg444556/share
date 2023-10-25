@@ -1,10 +1,10 @@
-from django.test import Client, TestCase
+import django.test
 from django.urls import reverse
 
-from about import views
+__all__ = ["StaticUrlTests"]
 
 
-class StaticUrlTests(TestCase):
+class StaticUrlTests(django.test.TestCase):
     def test_about_endpoint(self):
-        response = Client().get(reverse(views.description))
+        response = django.test.Client().get(reverse("about:about"))
         self.assertEqual(response.status_code, 200)

@@ -3,34 +3,35 @@ import django.db
 import django.test
 from django.urls import reverse
 
-from catalog import views
 import catalog.models
+
+__all__ = ["ModelTests", "StaticUrlTests"]
 
 
 class StaticUrlTests(django.test.TestCase):
     # test for catalog items
     def test_catalog_item_list_endpoint(self):
-        response = django.test.Client().get(reverse(views.item_list))
+        response = django.test.Client().get(reverse("catalog:item_list"))
         self.assertEqual(response.status_code, 200)
 
     def test_catalog_item_detail_endpoint(self):
         # test for catalog item details
         response = django.test.Client().get(
-            reverse(views.item_detail, args=["1"])
+            reverse("catalog:item_detail", args=["1"]),
         )
         self.assertEqual(response.status_code, 200)
 
     def test_re_exp_correct_status_catalog_endpoint(self):
         # test for correct re_path request
         response = django.test.Client().get(
-            reverse(views.catalog_int_pos_num, args=["100"])
+            reverse("catalog:catalog_re", args=["100"]),
         )
         self.assertEqual(response.status_code, 200)
 
     def test_re_exp_correct_content_catalog_endpoint(self):
         # test for correct re_path request, for content of response
         response = django.test.Client().get(
-            reverse(views.catalog_int_pos_num, args=["100"])
+            reverse("catalog:catalog_re", args=["100"]),
         )
         text = response.content.decode("utf-8")
         self.assertEqual(text, "<body>100</body>")
@@ -38,14 +39,14 @@ class StaticUrlTests(django.test.TestCase):
     def test_converter_status_catalog_endpoint(self):
         # test for correct request
         response = django.test.Client().get(
-            reverse(views.catalog_converter_int_pos, args=["100"])
+            reverse("catalog:catalog_converter", args=["100"]),
         )
         self.assertEqual(response.status_code, 200)
 
     def test_converter_content_catalog_endpoint(self):
         # test for correct converter request, for content of response
         response = django.test.Client().get(
-            reverse(views.catalog_converter_int_pos, args=["100"])
+            reverse("catalog:catalog_converter", args=["100"]),
         )
         text = response.content.decode("utf-8")
         self.assertEqual(text, "<body>100</body>")
@@ -75,6 +76,7 @@ class ModelTests(django.test.TestCase):
                 name="Тестовый товар",
                 category=self.category,
                 text="qwertyроскошно",
+                main_image="none",
             )
             self.item.full_clean()
             self.item.save()
@@ -88,6 +90,7 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова роскошно",
+            main_image="none",
         )
         self.item.full_clean()
         self.item.save()
@@ -101,6 +104,7 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова превосходно",
+            main_image="none",
         )
         self.item.full_clean()
         self.item.save()
@@ -120,7 +124,8 @@ class ModelTests(django.test.TestCase):
             self.category_test.save()
 
         self.assertEqual(
-            catalog.models.Category.objects.count(), category_count
+            catalog.models.Category.objects.count(),
+            category_count,
         )
 
     def test_able_to_create_must_contain_monini(self):
@@ -129,6 +134,7 @@ class ModelTests(django.test.TestCase):
             name="Тестовый товар",
             category=self.category,
             text="Нет слова унинянимонини",
+            main_image="none",
         )
         self.item.full_clean()
         self.item.save()
@@ -165,16 +171,19 @@ class ModelTests(django.test.TestCase):
         cat_count = catalog.models.Category.objects.count()
         with self.assertRaises(django.core.exceptions.ValidationError):
             self.cat1 = catalog.models.Category(
-                name="Кат Егория", slug="russkay"
+                name="Кат Егория",
+                slug="russkay",
             )
             self.cat1.full_clean()
             self.cat1.save()
             self.cat2 = catalog.models.Category(
-                name="катего рия__", slug="english"
+                name="катего рия__",
+                slug="english",
             )
             self.cat2.full_clean()
             self.cat2.save()
 
         self.assertEqual(
-            cat_count + 1, catalog.models.Category.objects.count()
+            cat_count + 1,
+            catalog.models.Category.objects.count(),
         )

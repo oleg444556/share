@@ -1,9 +1,13 @@
 import django.core.validators
 import django.db
+import django.utils.safestring
+import sorl.thumbnail
 
 import catalog.utils
 import catalog.validators
 import core.models
+
+__all__ = ["Category", "Item", "ItemImage", "Tag"]
 
 
 class Item(core.models.NamePulbishedModel):
@@ -13,7 +17,9 @@ class Item(core.models.NamePulbishedModel):
         "превосходно, роскошно",
         validators=[
             catalog.validators.ValidateMustContain(
-                "превосходно", "роскошно", "унинянимонини"
+                "превосходно",
+                "роскошно",
+                "унинянимонини",
             ),
         ],
     )
@@ -23,6 +29,11 @@ class Item(core.models.NamePulbishedModel):
         on_delete=django.db.models.CASCADE,
         verbose_name="категория",
     )
+    main_image = django.db.models.ImageField(
+        "главное изображение",
+        upload_to="catalog/",
+        null=True,
+    )
 
     class Meta:
         verbose_name = "товар"
@@ -30,6 +41,40 @@ class Item(core.models.NamePulbishedModel):
 
     def __str__(self):
         return self.name
+
+    def get_image_300x300(self):
+        return sorl.thumbnail.get_thumbnail(
+            self.main_image,
+            "300x300",
+            quality=51,
+        )
+
+    def image_tmb(self):
+        if self.main_image:
+            return django.utils.safestring.mark_safe(
+                f"<img src='{self.main_image.url}' width='50'",
+            )
+
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
+
+
+class ItemImage(django.db.models.Model):
+    item = django.db.models.ForeignKey(
+        "item",
+        on_delete=django.db.models.CASCADE,
+        verbose_name="изображения к товару",
+        related_name="images",
+    )
+    image = django.db.models.ImageField(
+        "изображение к товару",
+        upload_to="catalog/",
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = "изображение к товару"
+        verbose_name_plural = "изображения к товару"
 
 
 class Tag(core.models.NamePulbishedModel):
@@ -55,17 +100,21 @@ class Tag(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
-    def full_clean(self, *args, **kwargs):
-        try:
-            self.normalized_name = catalog.utils.name_slugify(self.name)
-            super().full_clean(*args, **kwargs)
-        except django.db.IntegrityError:
+    def clean(self):
+        self.normalized_name = catalog.utils.name_slugify(self.name)
+        if (
+            type(self)
+            .objects.filter(normalized_name=self.normalized_name)
+            .exclude(id=self.id)
+            .count()
+            > 0
+        ):
             raise django.core.exceptions.ValidationError(
-                "Тег с похожим именем уже существует"
+                "Тег с похожим именем уже существует",
             )
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        self.normalized_name = catalog.utils.name_slugify(self.name)
         super().save(*args, **kwargs)
 
 
@@ -101,15 +150,19 @@ class Category(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
-    def full_clean(self, *args, **kwargs):
-        try:
-            self.normalized_name = catalog.utils.name_slugify(self.name)
-            super().full_clean(*args, **kwargs)
-        except django.db.IntegrityError:
-            raise django.core.exceptions.ValidationError(
-                "Категория с похожим именем уже существует"
-            )
-
     def save(self, *args, **kwargs):
-        self.full_clean()
+        self.normalized_name = catalog.utils.name_slugify(self.name)
         super().save(*args, **kwargs)
+
+    def clean(self):
+        self.normalized_name = catalog.utils.name_slugify(self.name)
+        if (
+            type(self)
+            .objects.filter(normalized_name=self.normalized_name)
+            .exclude(id=self.id)
+            .count()
+            > 0
+        ):
+            raise django.core.exceptions.ValidationError(
+                "Категория с похожим именем уже существует",
+            )

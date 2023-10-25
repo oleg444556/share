@@ -1,3 +1,6 @@
+__all__ = ["PositiveNumbersConverter"]
+
+
 class PositiveNumbersConverter:
     regex = "[1-9][0-9]*"
 

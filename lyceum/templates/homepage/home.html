@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+  <title>Главная</title>
+{% endblock %}
+{% block content %}
+  <h1 class="text-center">Главная страница</h1>
+
+  <img src="{% static "img/cat_django_project.jpg" %}" class="rounded mx-auto d-block mb-3" height="720" weight="720" border="2" >
+
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="card mb-3 text-center" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Товар N</h5>
+        <p class="card-text">Что-то в описании товара</p>
+        <a href="{% url "catalog:item_detail" "1" %}" class="btn btn-primary mt-3">Перейти к товару</a>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

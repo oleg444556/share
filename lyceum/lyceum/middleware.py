@@ -2,6 +2,8 @@ import re
 
 from django.conf import settings
 
+__all__ = ["RussianWordsReverseMiddleware"]
+
 
 class RussianWordsReverseMiddleware:
     _call_count = 0

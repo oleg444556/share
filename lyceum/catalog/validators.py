@@ -3,6 +3,8 @@ import re
 import django.core.exceptions
 from django.utils.deconstruct import deconstructible
 
+__all__ = ["ValidateMustContain"]
+
 
 @deconstructible
 class ValidateMustContain:
@@ -16,7 +18,7 @@ class ValidateMustContain:
         )
         if not re.search(pattern, value.lower()):
             raise django.core.exceptions.ValidationError(
-                f"В тексте должны быть слова {self.validate_words}"
+                f"В тексте должны быть слова {self.validate_words}",
             )
 
     def __eq__(self, other):

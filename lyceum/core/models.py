@@ -1,5 +1,7 @@
 import django.db
 
+__all__ = ["NamePulbishedModel"]
+
 
 class NamePulbishedModel(django.db.models.Model):
     name = django.db.models.CharField(

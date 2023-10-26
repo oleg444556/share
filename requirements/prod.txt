@@ -7,3 +7,4 @@ tzdata==2023.3
 sorl-thumbnail==12.10.0
 Pillow==10.1.0
 django-cleanup==8.0.0
+django-ckeditor==6.7.0

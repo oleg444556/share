@@ -10,5 +10,4 @@ venv/
 .env
 *.sqlite3
 cache
-/static_dev/
-/media/
+static_prod/

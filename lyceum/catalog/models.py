@@ -1,3 +1,4 @@
+import ckeditor.fields
 import django.core.validators
 import django.db
 import django.utils.safestring
@@ -11,7 +12,7 @@ __all__ = ["Category", "Item", "ItemImage", "Tag"]
 
 
 class Item(core.models.NamePulbishedModel):
-    text = django.db.models.TextField(
+    text = ckeditor.fields.RichTextField(
         "текст",
         help_text="Описание товара, обязательно должно входить одно из слов:"
         "превосходно, роскошно",

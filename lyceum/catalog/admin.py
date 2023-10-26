@@ -18,12 +18,22 @@ class MainImageInline(admin.TabularInline):
 
 @admin.register(catalog.models.Tag)
 class TagAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        catalog.models.Tag.name.field.name,
+        catalog.models.Tag.is_published.field.name,
+    )
+    list_editable = (catalog.models.Tag.is_published.field.name,)
+    list_display_links = (catalog.models.Tag.name.field.name,)
 
 
 @admin.register(catalog.models.Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        catalog.models.Category.name.field.name,
+        catalog.models.Category.is_published.field.name,
+    )
+    list_editable = (catalog.models.Category.is_published.field.name,)
+    list_display_links = (catalog.models.Category.name.field.name,)
 
 
 @admin.register(catalog.models.Item)

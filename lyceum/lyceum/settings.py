@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "sorl.thumbnail",
     "django_cleanup.apps.CleanupConfig",
+    "ckeditor",
 ]
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
@@ -106,6 +107,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": [
+            ["Bold", "Italic"],
+            [
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+            ],
+        ],
+        "height": 100,
+        "width": 500,
+    },
+}
+
 
 LANGUAGE_CODE = "ru"
 
@@ -116,7 +132,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-
+STATIC_ROOT = BASE_DIR / "static_prod"
 STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

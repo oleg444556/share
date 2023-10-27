@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 import environ
 
 
@@ -45,6 +46,7 @@ if DEBUG:
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -124,10 +126,15 @@ CKEDITOR_CONFIGS = {
 
 
 LANGUAGE_CODE = "ru"
+LANGUAGES = [
+    ("en", _("English")),
+    ("ru", _("Russian")),
+]
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 USE_TZ = True
 

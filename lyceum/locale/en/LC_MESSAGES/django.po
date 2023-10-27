@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-27 23:03+0300\n"
+"POT-Creation-Date: 2023-10-27 23:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,9 @@ msgid "Russian"
 msgstr ""
 
 #: .\templates\includes\footer.html:25 .\templates\includes\header.html:12
-msgid "На главную"
+#, fuzzy
+#| msgid "На главную"
+msgid "Главная"
 msgstr "Homepage"
 
 #: .\templates\includes\footer.html:26 .\templates\includes\header.html:13

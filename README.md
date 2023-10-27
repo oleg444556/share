@@ -58,12 +58,13 @@ python3 manage.py runserver
 # Создание переводов
 - Выполните команду для создания папки locale и базовых файлов перевода:
 ```
-python3 manage.py makemessages -a
+cd lyceum
+django-admin makemessages -a
 ```
 - Добавьте при необходимости собственный перевод используя 'msgid' и 'msgstr'
 - Скомпилируйте полученные файлы:
 ```
-python3 manage.py compilemessages
+django-admin compilemessages
 ```
 
 

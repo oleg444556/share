@@ -11,3 +11,4 @@ venv/
 *.sqlite3
 cache
 static_prod/
+django.mo

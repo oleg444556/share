@@ -1,64 +1,67 @@
 # Домашний проект на Django
 ### Описание
 Учебный проект реализующий онлайн-магазин
+![Pipeline Status](https://gitlab.crja72.ru/django_2023/students/214610-the-pimp-47535/badges/main/pipeline.svg)
 ### Инструкция по развертыванию проекта 
 - Склонируйте репозиторий проекта
 ```bash
-git clone git@gitlab.crja72.ru:django_2023/students/214610-the-pimp-47230.git
-cd 214610-the-pimp-47230
+git clone git@gitlab.crja72.ru:django_2023/students/214610-the-pimp-47535.git
+cd 214610-the-pimp-47535
 ```
-
-- Создайте файл .env в корневой директории проекта и установите необходимые переменные окружения
-```
-DJANGO_SECRET_KEY="secret"
-DJANGO_DEBUG=True
-DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
-```
-
-### Запуск проекта в dev-режиме
-- Установите и активируйте виртуальное окружение
+- Создание и активация виртуального окружения
 ```
 python3 -m pip install venv  
 python3 -m venv venv
 source venv/bin/activate
 ```
-
+- Создайте файл .env в корневой директории проекта
+```
+cd lyceum
+touch .env
+```
+- Создайте переменные окружения в файле .env
+```
+DJANGO_SECRET_KEY="secret"
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
+DJANGO_ALLOW_REVERSE=True
+```
+## Запуск проекта
+### В prod режиме:
+- Установите зависимости из файла requirements/prod.txt
+```
+pip install -r requirements/prod.txt
+```
+### В dev режиме:
 - Установите зависимости из файла requirements/dev.txt
 ```
 pip install -r requirements/dev.txt
 ``` 
-- В папке с файлом manage.py выполните команду:
+### Установка БД:
+- Установите фикстуры из папки fixtures
 ```
-python3 manage.py runserver
+python3 manage.py loaddata fixtures/data.json
 ```
-
-###Запуск проекта в prod-режиме
-- Установите и активируйте виртуальное окружение
+- При внесении изменений в модели приложения, выполните миграцию БД
 ```
-python3 -m pip install venv
-python3 -m venv venv
-source venv/bin/activate
+python3 manage.py makemigrations
+python3 manage.py migrate
 ```
-- Установите зависимости из файла requirements/prod.txt
+- Создание суперпользователя
 ```
-pip install -r requirements/prod.txt
-``` 
-
-- При необходимости установите зависимости для тестов из requirements/test.txt
+python manage.py createsuperuser
 ```
-pip install -r requirements/test.txt
-``` 
-
-- В папке с файлом manage.py выполните команду:
+### Запуск сервера
+- Выполните команду:
 ```
 python3 manage.py runserver
 ```
 # Общие данные
-- Структура БД используемая в проекте отражена в файле ER.jpg
+- Структура БД используемая в проекте отражена в файле ER.jpg 
+- ![ER.jpg](ER.jpg)
 # Создание переводов
 - Выполните команду для создания папки locale и базовых файлов перевода:
 ```
-cd lyceum
 django-admin makemessages -a
 ```
 - Добавьте при необходимости собственный перевод используя 'msgid' и 'msgstr'
@@ -66,5 +69,3 @@ django-admin makemessages -a
 ```
 django-admin compilemessages
 ```
-
-

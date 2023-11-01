@@ -34,11 +34,3 @@ django-tests:
   only:
     - merge_requests
     - main
-
-
-
-
-
-
-
-

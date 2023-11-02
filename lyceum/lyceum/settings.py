@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
@@ -12,9 +11,10 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, False),
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
-    DJANGO_ALLOW_REVERSE=(str, "y"),
+    DJANGO_ALLOW_REVERSE=(bool, True),
 )
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+environ.Env.read_env(BASE_DIR / ".env")
+
 TRUE_DEF = ("", "true", "True", "yes", "YES", "1", "y")
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
@@ -23,22 +23,22 @@ DEBUG = True if str(env("DJANGO_DEBUG")) in TRUE_DEF else False
 
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 
-ALLOW_REVERSE = True if env("DJANGO_ALLOW_REVERSE") in TRUE_DEF else False
+ALLOW_REVERSE = True if str(env("DJANGO_ALLOW_REVERSE")) in TRUE_DEF else False
 
 INSTALLED_APPS = [
-    "catalog.apps.CatalogConfig",
-    "about.apps.AboutConfig",
-    "homepage.apps.HomepageConfig",
-    "core.apps.CoreConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "sorl.thumbnail",
     "django_cleanup.apps.CleanupConfig",
+    "sorl.thumbnail",
     "ckeditor",
+    "core.apps.CoreConfig",
+    "about.apps.AboutConfig",
+    "catalog.apps.CatalogConfig",
+    "homepage.apps.HomepageConfig",
 ]
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
@@ -52,10 +52,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "lyceum.middleware.RussianWordsReverseMiddleware",
 ]
 if DEBUG:
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+
+if ALLOW_REVERSE:
+    MIDDLEWARE.append("lyceum.middleware.RussianWordsReverseMiddleware")
 
 INTERNAL_IPS = [
     "127.0.0.1",

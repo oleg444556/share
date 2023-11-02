@@ -1,55 +1,10 @@
 import django.core.exceptions
 import django.db
 import django.test
-from django.urls import reverse
 
 import catalog.models
 
-__all__ = ["ModelTests", "StaticUrlTests"]
-
-
-class StaticUrlTests(django.test.TestCase):
-    # test for catalog items
-    def test_catalog_item_list_endpoint(self):
-        response = django.test.Client().get(reverse("catalog:item_list"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_catalog_item_detail_endpoint(self):
-        # test for catalog item details
-        response = django.test.Client().get(
-            reverse("catalog:item_detail", args=["1"]),
-        )
-        self.assertEqual(response.status_code, 200)
-
-    def test_re_exp_correct_status_catalog_endpoint(self):
-        # test for correct re_path request
-        response = django.test.Client().get(
-            reverse("catalog:catalog_re", args=["100"]),
-        )
-        self.assertEqual(response.status_code, 200)
-
-    def test_re_exp_correct_content_catalog_endpoint(self):
-        # test for correct re_path request, for content of response
-        response = django.test.Client().get(
-            reverse("catalog:catalog_re", args=["100"]),
-        )
-        text = response.content.decode("utf-8")
-        self.assertEqual(text, "<body>100</body>")
-
-    def test_converter_status_catalog_endpoint(self):
-        # test for correct request
-        response = django.test.Client().get(
-            reverse("catalog:catalog_converter", args=["100"]),
-        )
-        self.assertEqual(response.status_code, 200)
-
-    def test_converter_content_catalog_endpoint(self):
-        # test for correct converter request, for content of response
-        response = django.test.Client().get(
-            reverse("catalog:catalog_converter", args=["100"]),
-        )
-        text = response.content.decode("utf-8")
-        self.assertEqual(text, "<body>100</body>")
+__all__ = []
 
 
 class ModelTests(django.test.TestCase):

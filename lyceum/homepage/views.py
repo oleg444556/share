@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import django.shortcuts
 
-__all__ = ["coffee_endpoint", "home"]
+__all__ = []
 
 
 # Create your views here.

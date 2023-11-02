@@ -54,6 +54,10 @@ class MainImage(django.db.models.Model):
         help_text="Загрузите главное изображение товара",
     )
 
+    class Meta:
+        verbose_name = "главное изображение"
+        verbose_name_plural = "главные изображения"
+
     def get_image_300x300(self):
         return sorl.thumbnail.get_thumbnail(
             self.image,
@@ -68,10 +72,6 @@ class MainImage(django.db.models.Model):
                 f"'{MainImage.objects.get(main_item_id=self.id).image.url}'"
                 "width='50'>",
             )
-
-    class Meta:
-        verbose_name = "главное изображение"
-        verbose_name_plural = "главные изображения"
 
     image_tmb.short_description = "превью"
     image_tmb.allow_tags = True
@@ -119,6 +119,10 @@ class Tag(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.normalized_name = catalog.utils.name_slugify(self.name)
+        super().save(*args, **kwargs)
+
     def clean(self):
         self.normalized_name = catalog.utils.name_slugify(self.name)
         if (
@@ -131,10 +135,6 @@ class Tag(core.models.NamePulbishedModel):
             raise django.core.exceptions.ValidationError(
                 "Тег с похожим именем уже существует",
             )
-
-    def save(self, *args, **kwargs):
-        self.normalized_name = catalog.utils.name_slugify(self.name)
-        super().save(*args, **kwargs)
 
 
 class Category(core.models.NamePulbishedModel):

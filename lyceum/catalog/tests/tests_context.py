@@ -70,7 +70,7 @@ class ContextTests(django.test.TestCase):
 
     def test_correct_item_count_show(self):
         response = django.test.Client().get(reverse("catalog:item_list"))
-        items = response.context["items"].all()
+        items = response.context["items"]
         self.assertEqual(
             len(items),
             1,

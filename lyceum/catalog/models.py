@@ -174,6 +174,7 @@ class Category(core.models.NamePulbishedModel):
         "исключения похожих названий",
         unique=True,
         editable=False,
+        null=True,
     )
     slug = django.db.models.SlugField(
         "слаг",

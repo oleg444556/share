@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 import django.test
 from django.urls import reverse
 
@@ -65,12 +66,12 @@ class ContextTests(django.test.TestCase):
             response.context,
             msg="В контексте отсутсвует items",
         )
+        self.assertIsInstance(response.context["items"], QuerySet)
 
     def test_correct_item_count_show(self):
         response = django.test.Client().get(reverse("catalog:item_list"))
-        items = response.context["items"]
         self.assertEqual(
-            items.count(),
+            len(response.context["items"]),
             1,
             msg="Товаров отображается больше чем нужно,"
             "возможно не работает логика is_published",

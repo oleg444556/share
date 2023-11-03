@@ -70,8 +70,9 @@ class ContextTests(django.test.TestCase):
 
     def test_correct_item_count_show(self):
         response = django.test.Client().get(reverse("catalog:item_list"))
+        items = response.context["items"].all()
         self.assertEqual(
-            len(response.context["items"]),
+            len(items),
             1,
             msg="Товаров отображается больше чем нужно,"
             "возможно не работает логика is_published",

@@ -1,7 +1,7 @@
 from django.test import Client, modify_settings, TestCase
 from django.urls import reverse
 
-__all__ = ["RussianWorldsMiddlewareTests"]
+__all__ = []
 
 
 class RussianWorldsMiddlewareTests(TestCase):

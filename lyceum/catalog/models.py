@@ -29,11 +29,16 @@ class Item(core.models.NamePulbishedModel):
             ),
         ],
     )
-    tags = django.db.models.ManyToManyField("tag", verbose_name="тэги")
+    tags = django.db.models.ManyToManyField(
+        "tag",
+        verbose_name="тэги",
+        related_query_name="items",
+    )
     category = django.db.models.ForeignKey(
         "category",
         on_delete=django.db.models.CASCADE,
         verbose_name="категория",
+        related_query_name="items",
     )
 
     class Meta:
@@ -127,6 +132,7 @@ class Tag(core.models.NamePulbishedModel):
         "исключения похожих названий",
         unique=True,
         editable=False,
+        null=True,
     )
     slug = django.db.models.SlugField(
         "слаг",

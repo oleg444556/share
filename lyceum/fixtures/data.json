@@ -5,7 +5,8 @@
     "fields": {
         "name": "Швабра с распылителем Deerma",
         "is_published": true,
-        "text": "роскошно качество продукта",
+        "is_on_main": true,
+        "text": "<p style=\"text-align:center\">роскошно качество продукта, я просто набираю текст, чтобы показать, что после 10 слов текст обрезается</p>",
         "category": 1,
         "tags": [
             1
@@ -18,7 +19,8 @@
     "fields": {
         "name": "Samsa",
         "is_published": true,
-        "text": "превосходно",
+        "is_on_main": false,
+        "text": "<p>превосходно</p>",
         "category": 1,
         "tags": [
             2,
@@ -32,7 +34,8 @@
     "fields": {
         "name": "Пылесос",
         "is_published": true,
-        "text": "превосходно",
+        "is_on_main": true,
+        "text": "<p>превосходно</p>",
         "category": 1,
         "tags": [
             1,
@@ -45,8 +48,9 @@
     "pk": 4,
     "fields": {
         "name": "The_Pimp",
-        "is_published": false,
-        "text": "<p>роскошное превосходно</p>",
+        "is_published": true,
+        "is_on_main": false,
+        "text": "<p style=\"text-align:center\">роскошное превосходно</p>",
         "category": 2,
         "tags": [
             1,
@@ -63,6 +67,7 @@
     "fields": {
         "name": "Ручка шариковая",
         "is_published": true,
+        "is_on_main": true,
         "text": "<p style=\"text-align:right\">превосходно</p>",
         "category": 1,
         "tags": [
@@ -79,12 +84,92 @@
     }
 },
 {
+    "model": "catalog.mainimage",
+    "pk": 10,
+    "fields": {
+        "main_item": 4,
+        "image": "catalog/29997_big.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 11,
+    "fields": {
+        "main_item": 3,
+        "image": "catalog/594ee2e5adcd6b89e86300551527c07b.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 12,
+    "fields": {
+        "main_item": 1,
+        "image": "catalog/1.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 13,
+    "fields": {
+        "main_item": 2,
+        "image": "catalog/samsa-s-govyadinoj.jpeg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 3,
+    "fields": {
+        "item": 3,
+        "image": "catalog/blowfish-2145.png"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 4,
+    "fields": {
+        "item": 3,
+        "image": "catalog/ремеь_грм.jpeg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 5,
+    "fields": {
+        "item": 3,
+        "image": "catalog/Рыьа.jpg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 6,
+    "fields": {
+        "item": 3,
+        "image": "catalog/594ee2e5adcd6b89e86300551527c07b_nBzwDHc.jpg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 7,
+    "fields": {
+        "item": 1,
+        "image": "catalog/cat_django_project.jpg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 8,
+    "fields": {
+        "item": 1,
+        "image": "catalog/pngegg.png"
+    }
+},
+{
     "model": "catalog.tag",
     "pk": 1,
     "fields": {
         "name": "Бытовая техника",
         "is_published": true,
-        "normalized_name": "vitobayatexhika",
+        "normalized_name": "vsihtobayautexhika",
         "slug": "qwerty-"
     }
 },
@@ -94,7 +179,7 @@
     "fields": {
         "name": "Россия",
         "is_published": true,
-        "normalized_name": "pocciya",
+        "normalized_name": "pocciyau",
         "slug": "123423"
     }
 },
@@ -124,7 +209,7 @@
     "fields": {
         "name": "Огнеопасно",
         "is_published": true,
-        "normalized_name": "ogheowacho",
+        "normalized_name": "ogheoracho",
         "slug": "fire_danger"
     }
 },
@@ -136,6 +221,36 @@
         "is_published": true,
         "normalized_name": "vymazhhij",
         "slug": "bymaga"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 14,
+    "fields": {
+        "name": "Ёж",
+        "is_published": true,
+        "normalized_name": "ezh",
+        "slug": "0909909"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 15,
+    "fields": {
+        "name": "сосны",
+        "is_published": true,
+        "normalized_name": "cochi",
+        "slug": "00909"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 16,
+    "fields": {
+        "name": "сочи",
+        "is_published": true,
+        "normalized_name": "cowi",
+        "slug": "0909090909"
     }
 },
 {
@@ -154,8 +269,8 @@
     "pk": 2,
     "fields": {
         "name": "Смартфоны",
-        "is_published": true,
-        "normalized_name": "cmaptfohi",
+        "is_published": false,
+        "normalized_name": "cmaptfohsih",
         "slug": "jsdf1",
         "weight": 101
     }

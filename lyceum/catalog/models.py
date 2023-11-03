@@ -12,6 +12,11 @@ __all__ = ["Category", "Item", "ItemImage", "Tag"]
 
 
 class Item(core.models.NamePulbishedModel):
+    is_on_main = django.db.models.BooleanField(
+        "отображается на главной",
+        help_text="Статус товара на главной странице",
+        default=False,
+    )
     text = ckeditor.fields.RichTextField(
         "текст",
         help_text="Описание товара, обязательно должно входить одно из слов:"
@@ -38,6 +43,18 @@ class Item(core.models.NamePulbishedModel):
     def __str__(self):
         return self.name
 
+    def image_tmb(self):
+        if self.main_image.image:
+            return django.utils.safestring.mark_safe(
+                "<img src="
+                f"'{self.main_image.get_image_50x50.url}'"
+                "width='50'>",
+            )
+        return "Нет изображения"
+
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
+
 
 class MainImage(django.db.models.Model):
     main_item = django.db.models.OneToOneField(
@@ -45,6 +62,7 @@ class MainImage(django.db.models.Model):
         on_delete=django.db.models.CASCADE,
         null=True,
         verbose_name="главное изображение",
+        related_name="main_image",
     )
     image = django.db.models.ImageField(
         "главное изображение",
@@ -58,6 +76,7 @@ class MainImage(django.db.models.Model):
         verbose_name = "главное изображение"
         verbose_name_plural = "главные изображения"
 
+    @property
     def get_image_300x300(self):
         return sorl.thumbnail.get_thumbnail(
             self.image,
@@ -65,16 +84,13 @@ class MainImage(django.db.models.Model):
             quality=51,
         )
 
-    def image_tmb(self):
-        if MainImage.objects.get(main_item_id=self.id).image:
-            return django.utils.safestring.mark_safe(
-                "<img src="
-                f"'{MainImage.objects.get(main_item_id=self.id).image.url}'"
-                "width='50'>",
-            )
-
-    image_tmb.short_description = "превью"
-    image_tmb.allow_tags = True
+    @property
+    def get_image_50x50(self):
+        return sorl.thumbnail.get_thumbnail(
+            self.image,
+            "50x50",
+            quality=51,
+        )
 
 
 class ItemImage(django.db.models.Model):
@@ -94,6 +110,14 @@ class ItemImage(django.db.models.Model):
     class Meta:
         verbose_name = "изображение к товару"
         verbose_name_plural = "изображения к товару"
+
+    @property
+    def get_image_50x50(self):
+        return sorl.thumbnail.get_thumbnail(
+            self.image,
+            "50x50",
+            quality=51,
+        )
 
 
 class Tag(core.models.NamePulbishedModel):

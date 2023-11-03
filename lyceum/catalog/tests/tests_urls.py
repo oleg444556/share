@@ -3,6 +3,8 @@ from http import HTTPStatus
 import django.test
 from django.urls import reverse
 
+import catalog.models
+
 __all__ = []
 
 
@@ -18,7 +20,11 @@ class StaticUrlTests(django.test.TestCase):
 
     def test_catalog_item_detail_endpoint_positive(self):
         # test for catalog item details
-        for arg in range(0, 10):
+        ids = catalog.models.Item.objects.filter(
+            is_published=True,
+        ).values_list("id", flat=True)
+
+        for arg in ids[:10]:
             with self.subTest(item_num=arg):
                 response = django.test.Client().get(
                     reverse("catalog:item_detail", args=[arg]),

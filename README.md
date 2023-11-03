@@ -5,8 +5,8 @@
 ### Инструкция по развертыванию проекта 
 - Склонируйте репозиторий проекта
 ```bash
-git clone git@gitlab.crja72.ru:django_2023/students/214610-the-pimp-47535.git
-cd 214610-the-pimp-47535
+git clone git@gitlab.crja72.ru:django_2023/students/214610-the-pimp-course-967.git
+cd 214610-the-pimp-course-967
 ```
 - Создание и активация виртуального окружения
 ```

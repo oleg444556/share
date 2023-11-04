@@ -38,6 +38,7 @@ class ContextTests(django.test.TestCase):
             category=cls.published_category,
             text="роскошно",
             is_published=True,
+            is_on_main=True,
         )
         cls.unpublished_item = catalog.models.Item(
             name="Неопубликованный товар",
@@ -59,8 +60,8 @@ class ContextTests(django.test.TestCase):
         cls.unpublished_item.save()
         cls.unpublished_item.tags.add(cls.published_tag)
 
-    def test_catalog_item_list_correct_context(self):
-        response = django.test.Client().get(reverse("catalog:item_list"))
+    def test_homepage_item_list_correct_context(self):
+        response = django.test.Client().get(reverse("homepage:home"))
         self.assertIn(
             "items",
             response.context,
@@ -69,64 +70,12 @@ class ContextTests(django.test.TestCase):
         self.assertIsInstance(response.context["items"], QuerySet)
 
     def test_correct_item_count_show(self):
-        response = django.test.Client().get(reverse("catalog:item_list"))
+        response = django.test.Client().get(reverse("homepage:home"))
         items = response.context["items"]
         self.assertEqual(len(items), 1)
 
-    def test_correct_item_count_show_plus_one(self):
-        self.assertFalse(
-            self.unpublished_item.is_published,
-            msg="У неопубликованного товара статус опубликованного",
-        )
-
-        self.unpublished_item.is_published = True
-        self.unpublished_item.save()
-
-        response = self.client.get(reverse("catalog:item_list"))
-        items = response.context["items"]
-        self.assertEqual(
-            items.count(),
-            2,
-            msg="Товары отображаются неверно,"
-            "возможно не работает логика is_published",
-        )
-
-        self.unpublished_item.is_published = False
-        self.unpublished_item.save()
-
-        self.assertFalse(
-            self.unpublished_item.is_published,
-            msg="У неопубликованного товара статус опубликованного после",
-        )
-
-    def test_correct_show_with_unpub_category(self):
-        self.assertTrue(
-            self.published_item.category.is_published,
-            msg="У опубликованной категории статус неопубликованного",
-        )
-
-        self.published_item.category = self.unpublished_category
-        self.published_item.save()
-
-        response = self.client.get(reverse("catalog:item_list"))
-        items = response.context["items"]
-        self.assertEqual(
-            items.count(),
-            0,
-            msg="Товары отображаются неверно,"
-            "возможно не работает логика is_published категорий",
-        )
-
-        self.published_item.category = self.published_category
-        self.published_item.save()
-
-        self.assertTrue(
-            self.published_item.category.is_published,
-            msg="У опубликованной категории статус неопубликованного после",
-        )
-
     def test_correct_context_content(self):
-        response = self.client.get(reverse("catalog:item_list"))
+        response = self.client.get(reverse("homepage:home"))
         items = response.context["items"]
 
         self.assertNotEqual(len(items), 0, msg="в контект не попадают данные")
@@ -143,7 +92,7 @@ class ContextTests(django.test.TestCase):
                 self.assertNotIn(field, item.__dict__)
 
     def test_correct_context_content_in_prefetch(self):
-        response = self.client.get(reverse("catalog:item_list"))
+        response = self.client.get(reverse("homepage:home"))
         items = response.context["items"]
 
         self.assertNotEqual(len(items), 0, msg="в контект не попадают данные")

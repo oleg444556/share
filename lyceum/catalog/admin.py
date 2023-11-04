@@ -2,7 +2,7 @@ from django.contrib import admin
 
 import catalog.models
 
-__all__ = ["CategoryAdmin", "ItemAdmin", "ItemInline", "TagAdmin"]
+__all__ = []
 
 
 class ItemInline(admin.TabularInline):

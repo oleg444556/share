@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <h5 class="card-title text-center">{{ card_title }}</h5>
-      <p class="card-text">{{ card_text|safe|truncatewords_html:10 }}</p>
+      <div class="card-text">{{ card_text|truncatewords_html:10|safe }}</div>
       <div class="text-center"><a href="{% url "catalog:item_detail" pk=card_href %}" class="btn btn-primary">К товару</a></div>
     </div>
     <div class="card-footer text-center">

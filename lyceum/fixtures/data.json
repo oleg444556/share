@@ -18,7 +18,7 @@
     "pk": 2,
     "fields": {
         "name": "Samsa",
-        "is_published": true,
+        "is_published": false,
         "is_on_main": false,
         "text": "<p>превосходно</p>",
         "category": 1,
@@ -33,7 +33,7 @@
     "pk": 3,
     "fields": {
         "name": "Пылесос",
-        "is_published": true,
+        "is_published": false,
         "is_on_main": true,
         "text": "<p>превосходно</p>",
         "category": 1,
@@ -48,7 +48,7 @@
     "pk": 4,
     "fields": {
         "name": "The_Pimp",
-        "is_published": true,
+        "is_published": false,
         "is_on_main": false,
         "text": "<p style=\"text-align:center\">роскошное превосходно</p>",
         "category": 2,
@@ -66,10 +66,10 @@
     "pk": 5,
     "fields": {
         "name": "Ручка шариковая",
-        "is_published": true,
+        "is_published": false,
         "is_on_main": true,
         "text": "<p style=\"text-align:right\">превосходно</p>",
-        "category": 1,
+        "category": 2,
         "tags": [
             2
         ]
@@ -189,7 +189,7 @@
     "fields": {
         "name": "Сенсорный",
         "is_published": true,
-        "normalized_name": "cehcophij",
+        "normalized_name": "cehcophsihj",
         "slug": "12312553"
     }
 },
@@ -219,7 +219,7 @@
     "fields": {
         "name": "Бумажный",
         "is_published": true,
-        "normalized_name": "vymazhhij",
+        "normalized_name": "vymazhhsihj",
         "slug": "bymaga"
     }
 },
@@ -234,32 +234,12 @@
     }
 },
 {
-    "model": "catalog.tag",
-    "pk": 15,
-    "fields": {
-        "name": "сосны",
-        "is_published": true,
-        "normalized_name": "cochi",
-        "slug": "00909"
-    }
-},
-{
-    "model": "catalog.tag",
-    "pk": 16,
-    "fields": {
-        "name": "сочи",
-        "is_published": true,
-        "normalized_name": "cowi",
-        "slug": "0909090909"
-    }
-},
-{
     "model": "catalog.category",
     "pk": 1,
     "fields": {
         "name": "Товары для дома",
         "is_published": true,
-        "normalized_name": "tobapidlyadoma",
+        "normalized_name": "tobapsihdlyaudoma",
         "slug": "12234",
         "weight": 1000
     }
@@ -269,7 +249,7 @@
     "pk": 2,
     "fields": {
         "name": "Смартфоны",
-        "is_published": false,
+        "is_published": true,
         "normalized_name": "cmaptfohsih",
         "slug": "jsdf1",
         "weight": 101

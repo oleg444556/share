@@ -8,20 +8,16 @@
     <div class="row">
       <div class="col-md-6">
         <div class="row">
-          <span class="border border-primary p-1 mt-1">
-            <div class="col-md-12">
-              <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail grayscale">
+          <div class="col-md-12 border border-primary p-1 mt-1">
+            <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail grayscale" alt="Главная картинка">
+          </div>
+          <div class="row mx-auto border border-primary p-1 mt-1">
+          {% for image in item.images.all %}
+            <div class="col-lg-3 col-md-3 col-6 thumb">
+              <img src="{{ image.get_image_50x50.url }}" class="img-thumbnail grayscale" alt="Доп картинки">
             </div>
-          </span>
-          <span class="border border-primary p-1 mt-1">
-            <div class="row mt-1">
-            {% for image in item.images.all %}
-              <div class="col-lg-3 col-md-3 col-6 thumb">
-                <img src="{{ image.get_image_50x50.url }}" class="img-thumbnail grayscale">
-              </div>
-            {% endfor %}
-            </div>
-          </span>
+          {% endfor %}
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -33,13 +29,13 @@
           <span class="label label-primary p-1 bg-primary text-white rounded">{{ item.category.name }}</span>
           <span class="monospaced">No. {{ item.id }}</span>
         </div>
-       </div>
+      </div>
       <div class="row mt-2">
         <div class="col-md-12">
           <h5 class="text-left mt-1">Описание:</h5>{{ item.text|safe }}
         </div>
-       </div>
-       <div class="row mt-2">
+      </div>
+      <div class="row mt-2">
         <div class="col-md-12">
           <h5 class="text-left mt-1">Теги:</h5>
           <span class="border border-primary p-1">{% for tag in item.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>

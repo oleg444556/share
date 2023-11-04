@@ -212,6 +212,7 @@ class Tag(core.models.NamePulbishedModel):
             raise django.core.exceptions.ValidationError(
                 "Тег с похожим именем уже существует",
             )
+        super().clean()
 
 
 class Category(core.models.NamePulbishedModel):
@@ -263,3 +264,4 @@ class Category(core.models.NamePulbishedModel):
             raise django.core.exceptions.ValidationError(
                 "Категория с похожим именем уже существует",
             )
+        super().clean()

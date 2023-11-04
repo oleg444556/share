@@ -6,20 +6,23 @@
 {% block content %}
   <h1 class="text-center">Список товаров</h1>
   <div class="container mt-1 mb-1" >
-    {% regroup items by category as items %}
-    {% for cat in items %}
-    <div class="row col-12 mx-auto mt-5">
-      <h2 class="text-center">
-        <span class="label label-primary bg-primary text-white rounded">{{ cat.grouper }}</span>
-      </h2>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-2">
-      {% for item in cat.list %}
+    {% for item in items %}
+      {% ifchanged  item.category.name %}
+        {% if not forloop.first %}
+          </div>
+        {% endif %}
+        <div class="row col-12 mx-auto mt-5">
+          <h2 class="text-center">
+            <span class="label label-primary bg-primary text-white rounded">{{ item.category.name }}</span>
+          </h2>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-2">
+      {% endifchanged %}
         {% include "includes/item_card.html" with card_title=item.name card_text=item.text card_category=item.category.name card_tags=item.tags card_href=item.id %}
-      {% endfor %}
-    </div>
-    {% empty %}
+      {% empty %}
       <p class="text-center">Ничего, к сожалению, нет</p>
     {% endfor %}
+    </div>
   </div>
 {% endblock %}
+

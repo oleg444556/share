@@ -91,11 +91,13 @@ class Item(core.models.NamePulbishedModel):
         "время создания",
         help_text="Время создания товара",
         auto_now_add=True,
+        null=True,
     )
     updated_at = django.db.models.DateTimeField(
         "время последнего обновления",
         help_text="Время последнего обновления товара",
         auto_now=True,
+        null=True,
     )
 
     class Meta:

@@ -87,6 +87,16 @@ class Item(core.models.NamePulbishedModel):
         verbose_name="категория",
         related_query_name="items",
     )
+    created_at = django.db.models.DateTimeField(
+        "время создания",
+        help_text="Время создания товара",
+        auto_now_add=True,
+    )
+    updated_at = django.db.models.DateTimeField(
+        "время последнего обновления",
+        help_text="Время последнего обновления товара",
+        auto_now=True,
+    )
 
     class Meta:
         verbose_name = "товар"
@@ -168,6 +178,14 @@ class ItemImage(django.db.models.Model):
         return sorl.thumbnail.get_thumbnail(
             self.image,
             "50x50",
+            quality=51,
+        )
+
+    @property
+    def get_image_300x300(self):
+        return sorl.thumbnail.get_thumbnail(
+            self.image,
+            "300x300",
             quality=51,
         )
 

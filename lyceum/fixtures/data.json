@@ -8,6 +8,8 @@
         "is_on_main": true,
         "text": "<p style=\"text-align:center\">роскошно качество продукта, я просто набираю текст, чтобы показать, что после 10 слов текст обрезается</p>",
         "category": 1,
+        "created_at": "2023-11-05T13:40:02.466Z",
+        "updated_at": "2023-11-05T16:30:02.524Z",
         "tags": [
             1
         ]
@@ -18,10 +20,12 @@
     "pk": 2,
     "fields": {
         "name": "Samsa",
-        "is_published": false,
+        "is_published": true,
         "is_on_main": false,
         "text": "<p>превосходно</p>",
         "category": 1,
+        "created_at": "2023-11-05T13:40:02.466Z",
+        "updated_at": "2023-11-05T16:30:02.523Z",
         "tags": [
             2,
             5
@@ -33,10 +37,12 @@
     "pk": 3,
     "fields": {
         "name": "Пылесос",
-        "is_published": false,
+        "is_published": true,
         "is_on_main": true,
         "text": "<p>превосходно</p>",
         "category": 1,
+        "created_at": "2023-11-05T13:40:02.466Z",
+        "updated_at": "2023-11-05T16:30:02.521Z",
         "tags": [
             1,
             3
@@ -48,10 +54,12 @@
     "pk": 4,
     "fields": {
         "name": "The_Pimp",
-        "is_published": false,
+        "is_published": true,
         "is_on_main": false,
         "text": "<p style=\"text-align:center\">роскошное превосходно</p>",
         "category": 2,
+        "created_at": "2023-11-05T13:40:02.466Z",
+        "updated_at": "2023-11-05T16:30:02.520Z",
         "tags": [
             1,
             2,
@@ -66,12 +74,47 @@
     "pk": 5,
     "fields": {
         "name": "Ручка шариковая",
-        "is_published": false,
+        "is_published": true,
         "is_on_main": true,
         "text": "<p style=\"text-align:right\">превосходно</p>",
         "category": 2,
+        "created_at": "2023-11-05T13:40:02.466Z",
+        "updated_at": "2023-11-05T16:30:02.518Z",
         "tags": [
             2
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 6,
+    "fields": {
+        "name": "Робот пылесос",
+        "is_published": true,
+        "is_on_main": false,
+        "text": "<p style=\"text-align:center\">Превосходно чистит пол</p>",
+        "category": 1,
+        "created_at": "2023-11-05T13:43:15.837Z",
+        "updated_at": "2023-11-05T16:30:02.514Z",
+        "tags": [
+            1,
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 7,
+    "fields": {
+        "name": "Непроверенный товар",
+        "is_published": true,
+        "is_on_main": false,
+        "text": "<p>превосходно</p>",
+        "category": 2,
+        "created_at": "2023-11-05T16:30:37.592Z",
+        "updated_at": "2023-11-05T16:30:37.592Z",
+        "tags": [
+            14
         ]
     }
 },
@@ -113,6 +156,22 @@
     "fields": {
         "main_item": 2,
         "image": "catalog/samsa-s-govyadinoj.jpeg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 14,
+    "fields": {
+        "main_item": 6,
+        "image": "catalog/c204a8fe152621aeba89a7a870b335f6.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 15,
+    "fields": {
+        "main_item": 7,
+        "image": "catalog/Ava.jpg"
     }
 },
 {
@@ -161,6 +220,38 @@
     "fields": {
         "item": 1,
         "image": "catalog/pngegg.png"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 9,
+    "fields": {
+        "item": 1,
+        "image": "catalog/Bogdan.jpg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 10,
+    "fields": {
+        "item": 6,
+        "image": "catalog/5b664ff3ce9a1eae8fe4892dd79c2ed2.jpg"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 11,
+    "fields": {
+        "item": 6,
+        "image": "catalog/326795.970.png"
+    }
+},
+{
+    "model": "catalog.itemimage",
+    "pk": 12,
+    "fields": {
+        "item": 7,
+        "image": "catalog/maxresdefault.jpg"
     }
 },
 {

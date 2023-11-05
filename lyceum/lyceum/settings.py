@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "core.apps.CoreConfig",
     "about.apps.AboutConfig",
+    "download.apps.DownloadConfig",
     "catalog.apps.CatalogConfig",
     "homepage.apps.HomepageConfig",
 ]

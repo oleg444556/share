@@ -10,8 +10,21 @@
       {% with request.resolver_match.view_name as view_name %}
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="{% url "homepage:home" %}" class="nav-link {% if view_name == "homepage:home" %}active disabled{% endif %}">{% translate "Главная" %}</a></li>
-        <li class="nav-item"><a href="{% url "catalog:item_list" %}" class="nav-link {% if view_name == "catalog:item_list" %}active disabled{% endif %}">{% translate "Список товаров" %}</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle {% if view_name == "catalog:item_list" %}active{% endif %} {% if view_name == "catalog:new" %}active{% endif %} {% if view_name == "catalog:friday" %}active{% endif %} {% if view_name == "catalog:unverified" %}active{% endif %}" id="productsDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% translate "Список товаров" %}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="productsDropdown">
+            <a class="dropdown-item {% if view_name == "catalog:item_list" %}active disabled{% endif %}" href="{% url "catalog:item_list" %}">{% translate "Все товары" %}</a>
+            <a class="dropdown-item {% if view_name == "catalog:new" %}active disabled{% endif %}" href="{% url "catalog:new" %}">{% translate "Новинки" %}</a>
+            <a class="dropdown-item {% if view_name == "catalog:friday" %}active disabled{% endif %}" href="{% url "catalog:friday" %}">{% translate "Пятница" %}</a>
+            <a class="dropdown-item {% if view_name == "catalog:unverified" %}active disabled{% endif %}" href="{% url "catalog:unverified" %}">{% translate "Непроверенное" %}</a>
+          </div>
+        </li>
         <li class="nav-item"><a href="{% url "about:about" %}" class="nav-link {% if view_name == "about:about" %}active disabled{% endif %}">{% translate "О проекте" %}</a></li>
+        {% if request.user.is_superuser %}
+        <li class="nav-item"><a href="{% url "admin:index" %}" class="nav-link">{% translate "Админка" %}</a></li>
+        {% endif %}
       </ul>
       {% endwith %}
     </header>

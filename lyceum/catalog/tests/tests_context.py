@@ -1,3 +1,5 @@
+import time
+
 from django.db.models.query import QuerySet
 import django.test
 from django.urls import reverse
@@ -158,3 +160,46 @@ class ContextTests(django.test.TestCase):
 
         self.assertIn("tags", item.__dict__["_prefetched_objects_cache"])
         self.assertNotIn("images", item.__dict__["_prefetched_objects_cache"])
+
+    def test_correct_context_content_new(self):
+        response = self.client.get(reverse("catalog:new"))
+        items = response.context["items"]
+
+        self.assertNotEqual(len(items), 0, msg="в контект не попадают данные")
+
+        content = ("name", "text", "category_id", "_prefetched_objects_cache")
+        item = items[0]
+        for field in content:
+            with self.subTest(field=field):
+                self.assertIn(field, item.__dict__)
+
+        bad_content = ("is_published", "is_on_main", "main_image_id")
+        for field in bad_content:
+            with self.subTest(field=field):
+                self.assertNotIn(field, item.__dict__)
+
+    def test_correct_context_content_unver(self):
+        response = self.client.get(reverse("catalog:unverified"))
+        items = response.context["items"]
+
+        self.assertNotEqual(len(items), 0, msg="в контект не попадают данные")
+
+        content = ("name", "text", "category_id", "_prefetched_objects_cache")
+        item = items[0]
+        for field in content:
+            with self.subTest(field=field):
+                self.assertIn(field, item.__dict__)
+
+        bad_content = ("is_published", "is_on_main", "main_image_id")
+        for field in bad_content:
+            with self.subTest(field=field):
+                self.assertNotIn(field, item.__dict__)
+
+        time.sleep(1)
+        self.published_item.text = "превосходно"
+        self.published_item.save()
+
+        response = self.client.get(reverse("catalog:unverified"))
+        items = response.context["items"]
+
+        self.assertEqual(len(items), 0, msg="в контект попадают данные")

@@ -1,22 +1,45 @@
 {% extends "base.html" %}
-{% load thumbnail %}
 {% block head %}
   <title>{{ item.name }}</title>
+  <style>
+    /* Пользовательские стили для стрелок навигации */
+    .carousel-control-prev .carousel-control-prev-icon,
+    .carousel-control-next .carousel-control-next-icon {
+      background-color: gray; /* Задайте желаемый цвет стрелок */
+      color: white; /* Задайте цвет иконок (обычно белый) */
+    }
+  </style>
 {% endblock %}
 {% block content %}
   <div class="container">
     <div class="row">
       <div class="col-md-6">
         <div class="row">
-          <div class="col-md-12 border border-primary p-1 mt-1">
-            <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail grayscale" alt="Главная картинка">
+          <div class="col-md-6">
+            <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail img-fluid">
+            <div class="container"><a class="btn btn-outline-primary btn-sm" href="{% url "download:download" item.main_image.image %}" role="button">Скачать ⇩</a></div>
           </div>
-          <div class="row mx-auto border border-primary p-1 mt-1">
-          {% for image in item.images.all %}
-            <div class="col-lg-3 col-md-3 col-6 thumb">
-              <img src="{{ image.get_image_50x50.url }}" class="img-thumbnail grayscale" alt="Доп картинки">
+          <div class="col-md-6">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for image in item.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <img src="{{ image.get_image_300x300.url}}" class="img-fluid img-thumbnail" alt="images">
+                  <div class="carousel-caption">
+                    <a class="btn btn-outline-secondary btn-sm position-absolute bottom-0 start-0" href="{% url "download:download" image.image %}" role="button">⇩</a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
-          {% endfor %}
           </div>
         </div>
       </div>

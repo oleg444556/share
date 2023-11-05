@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-  <title>Список товаров</title>
+  <title>{% block title %}Список товаров{% endblock %}</title>
 {% endblock %}
 {% block content %}
-  <h1 class="text-center">Список товаров</h1>
+  <h1 class="text-center">{% block header %}Список товаров{% endblock %}</h1>
   <div class="container mt-1 mb-1" >
     {% for item in items %}
       {% ifchanged  item.category.name %}
@@ -18,8 +18,8 @@
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4 mb-2">
       {% endifchanged %}
-        {% include "includes/item_card.html" with card_title=item.name card_text=item.text card_category=item.category.name card_tags=item.tags card_href=item.id %}
-      {% empty %}
+      {% include "includes/item_card.html" with card_title=item.name card_text=item.text card_category=item.category.name card_tags=item.tags card_href=item.id %}
+    {% empty %}
       <p class="text-center">Ничего, к сожалению, нет</p>
     {% endfor %}
     </div>

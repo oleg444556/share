@@ -15,7 +15,31 @@ class StaticUrlTests(django.test.TestCase):
         self.assertEqual(
             response.status_code,
             HTTPStatus.OK,
-            msg="Страница не отвечает",
+            msg="Страница item_list не отвечает",
+        )
+
+    def test_catalog_new_endpoint(self):
+        response = django.test.Client().get(reverse("catalog:new"))
+        self.assertEqual(
+            response.status_code,
+            HTTPStatus.OK,
+            msg="Страница new не отвечает",
+        )
+
+    def test_catalog_friday_endpoint(self):
+        response = django.test.Client().get(reverse("catalog:friday"))
+        self.assertEqual(
+            response.status_code,
+            HTTPStatus.OK,
+            msg="Страница new не отвечает",
+        )
+
+    def test_catalog_unverified_endpoint(self):
+        response = django.test.Client().get(reverse("catalog:unverified"))
+        self.assertEqual(
+            response.status_code,
+            HTTPStatus.OK,
+            msg="Страница new не отвечает",
         )
 
     def test_catalog_item_detail_endpoint_positive(self):

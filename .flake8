@@ -3,4 +3,4 @@ quotes = double
 import-order-style = google
 exclude = */migrations/
 max-complexity = 10
-application_import_names = lyceum, about, catalog, homepage, core
+application_import_names = lyceum, about, catalog, homepage, core, download

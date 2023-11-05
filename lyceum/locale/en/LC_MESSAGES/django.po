@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-27 23:35+0300\n"
+"POT-Creation-Date: 2023-11-05 20:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: .\lyceum\settings.py:130
+#: .\lyceum\settings.py:133
 msgid "English"
 msgstr ""
 
-#: .\lyceum\settings.py:131
+#: .\lyceum\settings.py:134
 msgid "Russian"
 msgstr ""
 
-#: .\templates\includes\footer.html:25 .\templates\includes\header.html:12
-#, fuzzy
-#| msgid "На главную"
+#: .\templates\includes\header.html:12
 msgid "Главная"
 msgstr "Homepage"
 
-#: .\templates\includes\footer.html:26 .\templates\includes\header.html:13
+#: .\templates\includes\header.html:15
 msgid "Список товаров"
 msgstr "Item List"
 
-#: .\templates\includes\footer.html:27 .\templates\includes\header.html:14
+#: .\templates\includes\header.html:18
+msgid "Все товары"
+msgstr "All Items"
+
+#: .\templates\includes\header.html:19
+msgid "Новинки"
+msgstr "New"
+
+#: .\templates\includes\header.html:20
+msgid "Пятница"
+msgstr "Friday"
+
+#: .\templates\includes\header.html:21
+msgid "Непроверенное"
+msgstr "Unverified"
+
+#: .\templates\includes\header.html:24
 msgid "О проекте"
 msgstr "About"
+
+#: .\templates\includes\header.html:26
+msgid "Админка"
+msgstr "Admin"

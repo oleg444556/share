@@ -16,7 +16,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-6">
-            <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail img-fluid">
+            <img src="{{ item.main_image.get_image_300x300.url }}" class="img-thumbnail img-fluid" alt="Главная пикча">
             <div class="container"><a class="btn btn-outline-primary btn-sm" href="{% url "download:download" item.main_image.image %}" role="button">Скачать ⇩</a></div>
           </div>
           <div class="col-md-6">

@@ -59,7 +59,7 @@
         "text": "<p style=\"text-align:center\">роскошное превосходно</p>",
         "category": 2,
         "created_at": "2023-11-05T13:40:02.466Z",
-        "updated_at": "2023-11-05T16:30:02.520Z",
+        "updated_at": "2023-11-05T18:30:25.650Z",
         "tags": [
             1,
             2,
@@ -124,14 +124,6 @@
     "fields": {
         "main_item": 5,
         "image": "catalog/matiz.jpg"
-    }
-},
-{
-    "model": "catalog.mainimage",
-    "pk": 10,
-    "fields": {
-        "main_item": 4,
-        "image": "catalog/29997_big.jpg"
     }
 },
 {

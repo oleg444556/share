@@ -12,6 +12,7 @@ env = environ.Env(
     DJANGO_SECRET_KEY=(str, "fake_secret_key"),
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
     DJANGO_ALLOW_REVERSE=(bool, True),
+    DJANGO_MAIL=(str, "example@bk.ru"),
 )
 environ.Env.read_env(BASE_DIR / ".env")
 
@@ -24,6 +25,8 @@ DEBUG = True if str(env("DJANGO_DEBUG")) in TRUE_DEF else False
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 
 ALLOW_REVERSE = True if str(env("DJANGO_ALLOW_REVERSE")) in TRUE_DEF else False
+
+DJANGO_MAIL = env("DJANGO_MAIL")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     "download.apps.DownloadConfig",
     "catalog.apps.CatalogConfig",
     "homepage.apps.HomepageConfig",
+    "feedback.apps.FeedbackConfig",
 ]
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
@@ -133,6 +137,7 @@ LANGUAGES = [
     ("en", _("English")),
     ("ru", _("Russian")),
 ]
+DEFAULT_CHARSET = "utf-8"
 
 TIME_ZONE = "Europe/Moscow"
 
@@ -149,3 +154,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Форма Эхо</title>
+{% endblock %}
+{% block content %}
+<form method="post" action="{% url "homepage:echo_submit" %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ввод</button>
+</form>
+{% endblock %}

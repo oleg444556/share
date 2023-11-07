@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="card mx-auto mb-4 rounded-0" style="max-width: 35rem;">
+  <div class="card-body position-relative">
+    <div class="row g-6">
+      <div class="col-md-12 col-lg-12">
+        <h4 class="mb-3">Обратная связь</h4>
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form.visible_fields %}
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              <span class="form-text">
+                {{field.help_text}}
+              </span>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Отправить</button>
+          </div>
+        </form>
+        {% if messages %}
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }} d-flex align-items-center"{% endif %} role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use href="{% static "img/icons_messages.svg" %}#check-circle-fill"/></svg>
+          <div>{{ message }}</div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

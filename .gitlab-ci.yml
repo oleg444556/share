@@ -6,8 +6,8 @@ flake8:
   stage: linting
   image: registry.gitlab.com/pipeline-components/flake8:latest
   script:
-    - pip install flake8-import-order pep8-naming flake8-quotes flake8-dunder-all flake8-commas flake8-print
-    - flake8 --enable-extensions=flake8_import_order,pep8-naming,flake8-quotes,flake8-dunder-all,flake8-commas,flake8-print
+    - pip install flake8-import-order pep8-naming flake8-quotes flake8-dunder-all flake8-commas flake8-print flake8-return
+    - flake8 --enable-extensions=flake8_import_order,pep8-naming,flake8-quotes,flake8-dunder-all,flake8-commas,flake8-print,flake8-return
   only:
     - merge_requests
     - main
@@ -30,7 +30,16 @@ django-tests:
     - pip3 install -r requirements/prod.txt
   script:
     - cd lyceum
+    - python3 manage.py makemigrations --merge --noinput
     - python3 manage.py test
   only:
     - merge_requests
     - main
+
+
+
+
+
+
+
+

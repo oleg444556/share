@@ -13,20 +13,21 @@ def feedback(request):
     form = forms.FeedbackForm(request.POST or None)
     context = {"form": form}
 
-    if form.is_valid():
-        text = form.cleaned_data.get("text")
-        mail_to = form.cleaned_data.get("mail")
-        django.core.mail.send_mail(
-            "Обратная связь",
-            text,
-            settings.DJANGO_MAIL,
-            [mail_to],
-            fail_silently=False,
-        )
-        django.contrib.messages.success(
-            request,
-            "Письмо было успешно отправлено",
-        )
-        return django.shortcuts.redirect("feedback:feedback")
+    if request.method == "POST":
+        if form.is_valid():
+            text = form.cleaned_data.get("text")
+            mail_to = form.cleaned_data.get("mail")
+            django.core.mail.send_mail(
+                "Обратная связь",
+                text,
+                settings.DJANGO_MAIL,
+                [mail_to],
+                fail_silently=False,
+            )
+            django.contrib.messages.success(
+                request,
+                "Письмо было успешно отправлено",
+            )
+            return django.shortcuts.redirect("feedback:feedback")
 
     return django.shortcuts.render(request, template, context)

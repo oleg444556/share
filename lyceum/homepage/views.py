@@ -1,6 +1,7 @@
 import django.db
 from django.http import HttpResponse
 import django.shortcuts
+from django.views.decorators.http import require_POST, require_GET
 
 import catalog.models
 from homepage import forms
@@ -21,18 +22,22 @@ def coffee_endpoint(request):
     return HttpResponse("Я чайник", status=418)
 
 
-def echo_submit(request):
+@require_GET
+def echo(request):
     template = "homepage/echo.html"
-    form = forms.EchoForm(request.POST or None)
+    form = forms.EchoForm()
+    context = {"form": form}
+
+    return django.shortcuts.render(request, template, context)
+
+
+@require_POST
+def echo_submit(request):
+    template = "homepage/echo_submit.html"
+    form = forms.EchoForm(request.POST)
     if request.method == "POST":
         if form.is_valid():
             text = form.cleaned_data.get("text")
             context = {"text": text}
-            return django.shortcuts.render(
-                request,
-                "homepage/echo_submit.html",
-                context,
-            )
 
-    context = {"form": form}
     return django.shortcuts.render(request, template, context)

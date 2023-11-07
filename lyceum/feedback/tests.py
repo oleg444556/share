@@ -45,3 +45,12 @@ class FormsTests(django.test.TestCase):
         )
 
         self.assertRedirects(response, reverse("feedback:feedback"))
+
+    def test_form_errors(self):
+        data = {"mail": "qwerty", "text": None}
+
+        form = feedback.forms.FeedbackForm(data)
+        self.assertFalse(form.is_valid())
+
+        self.assertTrue(form.has_error('mail'))
+        self.assertTrue(form.has_error('text'))

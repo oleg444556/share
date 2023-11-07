@@ -12,3 +12,4 @@ venv/
 cache
 static_prod/
 django.mo
+send_mail/

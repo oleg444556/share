@@ -23,5 +23,5 @@ class RussianWordsReverseMiddleware:
         def reverse_word(match):
             return match.group()[::-1]
 
-        pattern = r"\b[А-Яа-я]+(?:-[А-Яа-я]+)?\b"
+        pattern = r"\b[А-Яа-яЁё]+\b"
         return re.sub(pattern, reverse_word, string)

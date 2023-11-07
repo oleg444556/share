@@ -1,5 +1,5 @@
 import django.db
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 import django.shortcuts
 from django.views.decorators.http import require_GET, require_POST
 
@@ -39,5 +39,6 @@ def echo_submit(request):
         if form.is_valid():
             text = form.cleaned_data.get("text")
             context = {"text": text}
+            return django.shortcuts.render(request, template, context)
 
-    return django.shortcuts.render(request, template, context)
+    return HttpResponseBadRequest("Неверный формат формы")

@@ -30,7 +30,6 @@ django-tests:
     - pip3 install -r requirements/prod.txt
   script:
     - cd lyceum
-    - python3 manage.py makemigrations --merge --noinput
     - python3 manage.py test
   only:
     - merge_requests

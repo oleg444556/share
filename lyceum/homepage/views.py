@@ -1,7 +1,7 @@
 import django.db
 from django.http import HttpResponse
 import django.shortcuts
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 import catalog.models
 from homepage import forms

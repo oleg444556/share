@@ -52,5 +52,5 @@ class FormsTests(django.test.TestCase):
         form = feedback.forms.FeedbackForm(data)
         self.assertFalse(form.is_valid())
 
-        self.assertTrue(form.has_error('mail'))
-        self.assertTrue(form.has_error('text'))
+        self.assertTrue(form.has_error("mail"))
+        self.assertTrue(form.has_error("text"))

@@ -2,6 +2,7 @@ import django.test
 from django.urls import reverse
 
 import feedback.forms
+import feedback.models
 
 __all__ = []
 
@@ -36,7 +37,14 @@ class FormsTests(django.test.TestCase):
         post_data = {
             "mail": "1@mail.ru",
             "text": "example",
+            "name": "example",
         }
+        form_test = feedback.forms.FeedbackForm(post_data)
+
+        self.assertTrue(
+            form_test.is_valid(),
+            msg="Форма не проходит валидацию",
+        )
 
         response = django.test.Client().post(
             reverse("feedback:feedback"),
@@ -54,3 +62,56 @@ class FormsTests(django.test.TestCase):
 
         self.assertTrue(form.has_error("mail"))
         self.assertTrue(form.has_error("text"))
+        self.assertTrue(form.has_error("name"))
+
+    def test_feedback_create_valid_form(self):
+        post_data = {
+            "mail": "1@mail.ru",
+            "text": "example",
+            "name": "example",
+        }
+
+        form_test = feedback.forms.FeedbackForm(post_data)
+
+        self.assertTrue(
+            form_test.is_valid(),
+            msg="Форма не проходит валидацию",
+        )
+
+        feedback_count = feedback.models.Feedback.objects.count()
+        django.test.Client().post(
+            reverse("feedback:feedback"),
+            data=post_data,
+            follow=True,
+        )
+
+        self.assertEqual(
+            feedback.models.Feedback.objects.count(),
+            feedback_count + 1,
+        )
+
+    def test_feedback_create_unvalid_form(self):
+        post_data = {
+            "mail": "mail.ru",
+            "text": "example",
+            "name": "example",
+        }
+
+        form_test = feedback.forms.FeedbackForm(post_data)
+
+        self.assertFalse(
+            form_test.is_valid(),
+            msg="Форма проходит валидацию",
+        )
+
+        feedback_count = feedback.models.Feedback.objects.count()
+        django.test.Client().post(
+            reverse("feedback:feedback"),
+            data=post_data,
+            follow=True,
+        )
+
+        self.assertEqual(
+            feedback.models.Feedback.objects.count(),
+            feedback_count,
+        )

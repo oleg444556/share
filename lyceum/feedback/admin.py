@@ -21,7 +21,16 @@ class FeedbackAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-        obj.user = request.user
+        pk = obj.pk
+        if pk and request.user:
+            old_feed = feedback.models.Feedback.objects.get(id=pk)
+            if obj.status != old_feed.status:
+                feedback.models.StatusLog.objects.create(
+                    user=request.user,
+                    feedback=obj,
+                    from_status=old_feed.get_status_display(),
+                    to=obj.get_status_display(),
+                )
         super().save_model(request, obj, form, change)
 
 

@@ -26,7 +26,6 @@ class Feedback(django.db.models.Model):
         "время создания",
         help_text="Время создания письма",
         auto_now_add=True,
-        null=True,
     )
     mail = django.db.models.EmailField(
         "почта",
@@ -34,8 +33,9 @@ class Feedback(django.db.models.Model):
     )
     name = django.db.models.CharField(
         "имя отправителя",
-        help_text="Введите ваше имя",
+        help_text="Введите ваше имя (необязательно)",
         max_length=200,
+        blank=True,
     )
 
     class Meta:
@@ -44,18 +44,6 @@ class Feedback(django.db.models.Model):
 
     def __str__(self):
         return self.mail
-
-    def save(self, *args, **kwargs):
-        if self.pk and self.user:
-            old_feed = Feedback.objects.get(id=self.pk)
-            if self.status != old_feed.status:
-                StatusLog.objects.create(
-                    user=self.user,
-                    feedback=self,
-                    from_status=old_feed.get_status_display(),
-                    to=self.get_status_display(),
-                )
-        super().save(*args, **kwargs)
 
 
 class StatusLog(django.db.models.Model):

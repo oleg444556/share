@@ -2,7 +2,7 @@ import django.contrib
 import django.core.mail
 import django.shortcuts
 
-from feedback import forms, models
+from feedback import forms
 from lyceum import settings
 
 __all__ = []
@@ -25,7 +25,7 @@ def feedback(request):
                 fail_silently=False,
             )
 
-            feed = form.save()
+            form.save()
 
             django.contrib.messages.success(
                 request,

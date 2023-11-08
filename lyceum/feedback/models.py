@@ -1,4 +1,4 @@
-import django.contrib.auth
+from django.conf import settings
 import django.db
 import django.utils.timezone
 
@@ -6,11 +6,11 @@ __all__ = ["Feedback", "StatusLog"]
 
 
 class Feedback(django.db.models.Model):
-    STATUS_CHOICES = {
+    STATUS_CHOICES = [
         ("GOT", "получено"),
         ("IN", "в обработке"),
         ("OK", "ответ дан"),
-    }
+    ]
     status = django.db.models.CharField(
         "статус обращения",
         help_text="Текущий статус полученного письма",
@@ -60,9 +60,10 @@ class Feedback(django.db.models.Model):
 
 class StatusLog(django.db.models.Model):
     user = django.db.models.ForeignKey(
-        django.contrib.auth.get_user_model(),
-        on_delete=django.db.models.CASCADE,
+        settings.AUTH_USER_MODEL,
+        on_delete=django.db.models.SET_NULL,
         verbose_name="пользователь",
+        null=True,
     )
     timestamp = django.db.models.DateTimeField(
         "время изменения",

@@ -17,7 +17,6 @@ cd 214610-the-pimp-course-967
 - Создание и активация виртуального окружения
 
 ```bash
-python3 -m pip install venv  
 python3 -m venv venv
 source venv/bin/activate
 ```
@@ -36,7 +35,10 @@ DJANGO_SECRET_KEY="secret"
 DJANGO_DEBUG=True
 DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
 DJANGO_ALLOW_REVERSE=True
+DJANGO_MAIL=example@mail.com
 ```
+
+- Пример файла с переменными окружения .env.example
 
 ## Запуск проекта
 
@@ -66,8 +68,7 @@ python3 manage.py loaddata fixtures/data.json
 
 - При внесении изменений в модели приложения, выполните миграцию БД
 
-```python
-python3 manage.py makemigrations
+```bash
 python3 manage.py migrate
 ```
 
@@ -91,12 +92,6 @@ python3 manage.py runserver
 - ![ER.jpg](ER.jpg)
 
 ## Создание переводов
-
-- Выполните команду для создания папки locale и базовых файлов перевода:
-
-```bash
-django-admin makemessages -a
-```
 
 - Добавьте при необходимости собственный перевод используя 'msgid' и 'msgstr'
 - Скомпилируйте полученные файлы:

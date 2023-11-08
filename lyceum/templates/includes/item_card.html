@@ -1,7 +1,6 @@
 <div class="col">
   <div class="card mx-auto mt-3 h-100" style="width: 25rem;">
     <div class="card-header text-center">
-      {{ card_category }}
     </div>
     <div class="card-body">
       <h5 class="card-title text-center">{{ card_title }}</h5>
@@ -9,7 +8,11 @@
       <div class="text-center"><a href="{% url "catalog:item_detail" pk=card_href %}" class="btn btn-primary">К товару</a></div>
     </div>
     <div class="card-footer text-center">
-      <p>Теги: {% for tag in card_tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+      <p>Теги:
+        {% for tag in card_tags.all %}
+        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
     </div>
   </div>
 </div>

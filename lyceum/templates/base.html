@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css.map" %}">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <link rel="icon" href="{% static "img/favicon.ico" %}" type="image/x-icon">
-    {% block head %}<title>Стандартный заголовок</title>{% endblock %}
-    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+    <title>{% block title %}Стандартный заголовок{% endblock %}</title>
   </head>
   <body>
     {% include "includes/header.html" %}
@@ -19,5 +19,6 @@
     </main>
     {% include "includes/footer.html" %}
     {% block end_body %}{% endblock %}
+    <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
   </body>
 </html>

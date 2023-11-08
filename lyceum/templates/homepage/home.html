@@ -1,24 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-  <title>Главная</title>
-  <style>
-    img {
-      max-width: 100%;
-      max-height: 100%;
-    }
-  </style>
+{% block title %}
+Главная
 {% endblock %}
 {% block content %}
   <h1 class="text-center">Главная страница</h1>
-
   <div class="container mt-4 mb-4" >
     <div class="row">
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
         <p>Главная страница проекта с какой то информацией ghbkjjhgjf tcyfdyf8687687t86</p>
       </div>
       <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <img src="{% static "img/cat_django_project.jpg" %}" class="rounded mx-auto d-block mb-3" alt="Фотография котика">
+        <img src="{% static "img/cat_django_project.jpg" %}" class="rounded mx-auto d-block mb-3 img-fluid" alt="Фотография котика">
       </div>
     </div>
   </div>

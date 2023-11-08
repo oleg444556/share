@@ -1,14 +1,6 @@
 {% extends "base.html" %}
-{% block head %}
-  <title>{{ item.name }}</title>
-  <style>
-    /* Пользовательские стили для стрелок навигации */
-    .carousel-control-prev .carousel-control-prev-icon,
-    .carousel-control-next .carousel-control-next-icon {
-      background-color: gray; /* Задайте желаемый цвет стрелок */
-      color: white; /* Задайте цвет иконок (обычно белый) */
-    }
-  </style>
+{% block title %}
+{{ item.name }}
 {% endblock %}
 {% block content %}
   <div class="container">

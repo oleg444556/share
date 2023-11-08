@@ -1,4 +1,4 @@
-import django.contrib.auth.models
+import django.contrib.auth
 import django.db
 import django.utils.timezone
 
@@ -53,14 +53,14 @@ class Feedback(django.db.models.Model):
                     user=self.user,
                     feedback=self,
                     from_status=old_feed.get_status_display(),
-                    to_status=self.get_status_display(),
+                    to=self.get_status_display(),
                 )
         super().save(*args, **kwargs)
 
 
 class StatusLog(django.db.models.Model):
     user = django.db.models.ForeignKey(
-        django.contrib.auth.models.User,
+        django.contrib.auth.get_user_model(),
         on_delete=django.db.models.CASCADE,
         verbose_name="пользователь",
     )
@@ -82,10 +82,13 @@ class StatusLog(django.db.models.Model):
         db_column="from",
         null=True,
     )
-    to_status = django.db.models.CharField(
+    to = django.db.models.CharField(
         "текущий статус",
         help_text="Текущий статус",
         max_length=12,
-        db_column="to",
         null=True,
     )
+
+    class Meta:
+        verbose_name = "лог статуса"
+        verbose_name_plural = "логи статуса"

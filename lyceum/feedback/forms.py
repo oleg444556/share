@@ -56,3 +56,7 @@ class MultipleFileField(django.forms.FileField):
 
 class FileFieldForm(django.forms.Form):
     file_field = MultipleFileField()
+
+    def save(self, *args, **kwargs):
+        file = feedback.models.FeedbackFiles(*args, **kwargs)
+        file.save()

@@ -2,7 +2,7 @@ import django.contrib
 import django.core.mail
 import django.shortcuts
 
-from feedback import forms, models
+from feedback import forms
 from lyceum import settings
 
 __all__ = []
@@ -41,11 +41,7 @@ def feedback(request):
             personal.save()
 
             for uploaded_file in request.FILES.getlist("file_field"):
-                file = models.FeedbackFiles(
-                    file=uploaded_file,
-                    feedback=text,
-                )
-                file.save()
+                form_files.save(feedback=text, file=uploaded_file)
 
             django.contrib.messages.success(
                 request,

@@ -12,7 +12,7 @@ def feedback(request):
     template = "feedback/feedback.html"
     form_text = forms.FeedbackForm(request.POST or None)
     form_personal = forms.FeedbackPersonalForm(request.POST or None)
-    form_files = forms.FileFieldForm(request.POST, request.FILES)
+    form_files = forms.FileFieldForm(request.POST or None)
     context = {
         "form_text": form_text,
         "form_personal": form_personal,
@@ -41,10 +41,11 @@ def feedback(request):
             personal.save()
 
             for uploaded_file in request.FILES.getlist("file_field"):
-                models.FeedbackFiles.objects.create(
+                file = models.FeedbackFiles(
                     file=uploaded_file,
-                    main_feedback=text,
+                    feedback=text,
                 )
+                file.save()
 
             django.contrib.messages.success(
                 request,

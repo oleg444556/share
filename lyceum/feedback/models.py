@@ -114,12 +114,14 @@ class FeedbackPersonal(django.db.models.Model):
 
 class FeedbackFiles(django.db.models.Model):
     def get_upload_path(self, filename):
-        return f"uploads/{self.main_feedback_id}/{filename}"
+        return f"uploads/{self.feedback_id}/{filename}"
 
-    main_feedback = django.db.models.ForeignKey(
+    feedback = django.db.models.ForeignKey(
         "Feedback",
         on_delete=django.db.models.CASCADE,
+        null=True,
         verbose_name="файл",
+        related_name="file",
         related_query_name="files",
     )
     file = django.db.models.FileField(

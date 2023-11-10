@@ -44,6 +44,7 @@ class MultipleFileInput(django.forms.ClearableFileInput):
 class MultipleFileField(django.forms.FileField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("widget", MultipleFileInput())
+        kwargs["required"] = False
         super().__init__(*args, **kwargs)
 
     def clean(self, data, initial=None):

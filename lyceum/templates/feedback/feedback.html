@@ -11,18 +11,38 @@
         <h4 class="mb-3">Обратная связь</h4>
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {% for form in forms %}
-            {% for field in form.visible_fields %}
-            <div class="row g-3 mb-3">
-              <div class="col-12">
-                <label class="form-label">{{ field.label }}</label>
-                {{ field }}
-                <span class="form-text">
-                  {{field.help_text}}
-                </span>
-              </div>
+          {% for field in form_personal.visible_fields %}
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              <span class="form-text">
+                {{field.help_text}}
+              </span>
             </div>
-            {% endfor %}
+          </div>
+          {% endfor %}
+          {% for field in form_text.visible_fields %}
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              <span class="form-text">
+                {{field.help_text}}
+              </span>
+            </div>
+          </div>
+          {% endfor %}
+          {% for field in form_files.visible_fields %}
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              <span class="form-text">
+                {{field.help_text}}
+              </span>
+            </div>
+          </div>
           {% endfor %}
           <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-3">Отправить</button>

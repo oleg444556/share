@@ -13,8 +13,11 @@ def feedback(request):
     form_text = forms.FeedbackForm(request.POST or None)
     form_personal = forms.FeedbackPersonalForm(request.POST or None)
     form_files = forms.FileFieldForm(request.POST, request.FILES)
-    form = [form_personal, form_text, form_files]
-    context = {"forms": form}
+    context = {
+        "form_text": form_text,
+        "form_personal": form_personal,
+        "form_files": form_files,
+    }
 
     if request.method == "POST":
         if (
@@ -37,7 +40,7 @@ def feedback(request):
             personal.text_feedback = text
             personal.save()
 
-            for uploaded_file in form_files.cleaned_data["file_field"]:
+            for uploaded_file in request.FILES.getlist("file_field"):
                 models.FeedbackFiles.objects.create(
                     file=uploaded_file,
                     main_feedback=text,

@@ -123,6 +123,7 @@ class FeedbackFiles(django.db.models.Model):
         related_query_name="files",
     )
     file = django.db.models.FileField(
+        "файл",
         upload_to=get_upload_path,
         null=True,
     )

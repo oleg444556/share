@@ -44,7 +44,9 @@ class FormsTests(django.test.TestCase):
         response = django.test.Client().get(reverse("feedback:feedback"))
         context = response.context
 
-        self.assertIn("forms", context)
+        self.assertIn("form_personal", context)
+        self.assertIn("form_text", context)
+        self.assertIn("form_files", context)
 
     def test_post_request_form_redirect(self):
         post_data = {

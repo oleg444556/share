@@ -5,20 +5,29 @@ import feedback.models
 __all__ = []
 
 
+class PersonalInline(admin.TabularInline):
+    model = feedback.models.FeedbackPersonal
+    can_delete = False
+    readonly_fields = [
+        feedback.models.FeedbackPersonal.name.field.name,
+        feedback.models.FeedbackPersonal.mail.field.name,
+    ]
+
+
 @admin.register(feedback.models.Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = (
-        feedback.models.Feedback.name.field.name,
-        feedback.models.Feedback.mail.field.name,
+        feedback.models.Feedback.display_name,
+        feedback.models.Feedback.display_mail,
         feedback.models.Feedback.status.field.name,
     )
     list_editable = (feedback.models.Feedback.status.field.name,)
-    list_display_links = (feedback.models.Feedback.name.field.name,)
-    readonly_fields = (
-        feedback.models.Feedback.name.field.name,
-        feedback.models.Feedback.mail.field.name,
-        feedback.models.Feedback.text.field.name,
+    list_display_links = (
+        feedback.models.Feedback.display_name,
+        feedback.models.Feedback.display_mail,
     )
+    readonly_fields = (feedback.models.Feedback.text.field.name,)
+    inlines = (PersonalInline,)
 
     def save_model(self, request, obj, form, change):
         pk = obj.pk

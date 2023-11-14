@@ -1,6 +1,7 @@
 import django.contrib.auth.views
 from django.urls import path
 
+import homepage.views
 from lyceum import settings
 import users.forms
 import users.views
@@ -73,4 +74,5 @@ urlpatterns = [
     path("activate/<str:user>/", users.views.activate, name="activate"),
     path("user_list/", users.views.user_list, name="user_list"),
     path("user_list/<int:pk>/", users.views.user_detail, name="user_detail"),
+    path("profile/<int:pk>/", homepage.views.profile, name="profile"),
 ]

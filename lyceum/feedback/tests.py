@@ -45,7 +45,7 @@ class FormsTests(django.test.TestCase):
         context = response.context
 
         self.assertIn("form_personal", context)
-        self.assertIn("form_text", context)
+        self.assertIn("form", context)
         self.assertIn("form_files", context)
 
     def test_post_request_form_redirect(self):

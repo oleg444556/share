@@ -129,3 +129,7 @@ class FeedbackFiles(django.db.models.Model):
         upload_to=get_upload_path,
         null=True,
     )
+
+    class Meta:
+        verbose_name = "файл фидбека"
+        verbose_name_plural = "файлы фидбека"

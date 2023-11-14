@@ -66,53 +66,50 @@ def profile(request, pk):
         ),
         id=pk,
     )
-    if request.user == user:
-        template = "users/profile.html"
+    template = "users/profile.html"
+    user_form = users.forms.ProfilePageUserForm(
+        initial={
+            "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+        },
+        instance=user,
+    )
+    profile_form = users.forms.ProfilePageProfileForm(
+        initial={
+            "birthday": user.profile.birthday,
+        },
+        instance=user.profile,
+    )
+    forms = [user_form, profile_form]
+    context = {"forms": forms, "user": user}
+
+    if request.method == "POST":
         user_form = users.forms.ProfilePageUserForm(
-            initial={
-                "username": user.username,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email": user.email,
-            },
+            request.POST,
             instance=user,
         )
         profile_form = users.forms.ProfilePageProfileForm(
-            initial={
-                "birthday": user.profile.birthday,
-            },
+            request.POST,
+            request.FILES,
             instance=user.profile,
         )
-        forms = [user_form, profile_form]
-        context = {"forms": forms, "user": user}
 
-        if request.method == "POST":
-            user_form = users.forms.ProfilePageUserForm(
-                request.POST,
-                instance=user,
-            )
-            profile_form = users.forms.ProfilePageProfileForm(
-                request.POST,
-                request.FILES,
-                instance=user.profile,
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.coffee_count = user.profile.coffee_count
+            profile.save()
+
+            django.contrib.messages.success(
+                request,
+                "Ваш профиль успешно обновлен",
             )
 
-            if user_form.is_valid() and profile_form.is_valid():
-                user_form.save()
-                profile_form.save()
+            return django.shortcuts.redirect(
+                "users:profile",
+                pk=user.id,
+            )
 
-                django.contrib.messages.success(
-                    request,
-                    "Ваш профиль успешно обновлен",
-                )
-
-                return django.shortcuts.redirect(
-                    "homepage:profile",
-                    pk=user.id,
-                )
-
-        return django.shortcuts.render(request, template, context)
-
-    return HttpResponseBadRequest(
-        "Ой, эта страница недоступна( Похоже это не ваш профиль",
-    )
+    return django.shortcuts.render(request, template, context)

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Список пользователей{% endblock %}
+{% block content %}
+<h1 class="text-center mb-3">Список активных пользователей</h1>
+<section class="w-100 p-4 d-flex justify-content-center pb-4">
+  <ul class="list-group">
+    <div class="row">
+      {% for user in users %}
+      <a href="{% url "users:user_detail" pk=user.id %}"class="list-group-item list-group-item-action">{{ user }}</a>
+      {% endfor %}
+  </ul>
+</section>
+{% endblock %}

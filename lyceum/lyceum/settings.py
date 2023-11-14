@@ -13,6 +13,7 @@ env = environ.Env(
     DJANGO_ALLOWED_HOSTS=(list, ["*"]),
     DJANGO_ALLOW_REVERSE=(bool, True),
     DJANGO_MAIL=(str, "example@bk.ru"),
+    DEFAULT_USER_IS_ACTIVE=(str),
 )
 environ.Env.read_env(BASE_DIR / ".env")
 
@@ -28,6 +29,13 @@ ALLOW_REVERSE = True if str(env("DJANGO_ALLOW_REVERSE")) in TRUE_DEF else False
 
 DJANGO_MAIL = env("DJANGO_MAIL")
 
+DEFAULT_USER_IS_ACTIVE = (
+    True
+    if env("DEFAULT_USER_IS_ACTIVE", default="True" if DEBUG else "False")
+    in TRUE_DEF
+    else False
+)
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -40,10 +48,11 @@ INSTALLED_APPS = [
     "ckeditor",
     "core.apps.CoreConfig",
     "about.apps.AboutConfig",
-    "download.apps.DownloadConfig",
     "catalog.apps.CatalogConfig",
-    "homepage.apps.HomepageConfig",
+    "download.apps.DownloadConfig",
     "feedback.apps.FeedbackConfig",
+    "homepage.apps.HomepageConfig",
+    "users.apps.UsersConfig",
 ]
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
@@ -157,3 +166,6 @@ MEDIA_URL = "/media/"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "send_mail"
+
+LOGIN_URL = "/auth/login"
+LOGIN_REDIRECT_URL = "/"

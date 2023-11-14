@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<h1 class="text-center">Ваш профиль</h1>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          {% if user.profile.image %}
+          <img src="{{ user.profile.get_image_300x300.url }}" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;">
+          {% else %}
+          <img src="{% static "img/default_img.png" %}" alt="User Image" class="rounded-circle img-fluid" style="width: 150px;">
+          {% endif %}
+          <h5 class="my-3">{{user}}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for form in forms %}
+          {% for field in form %}
+          <div class="form-outline mb-4">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <span class="form-text">
+                {{ field.help_text }}
+              </span>
+            {% endif %}
+          {% endfor %}
+        <div class="mx-auto mb-4 rounded-0" style="max-width: 35rem;">
+          {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use href="{% static "img/icons_messages.svg" %}#exclamation-triangle-fill"/></svg>
+              <div>
+                {{ error|escape }}
+              </div>
+            </div>
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use href="{% static "img/icons_messages.svg" %}#exclamation-triangle-fill"/></svg>
+              <div>
+                {{ error|escape }}
+              </div>
+            </div>
+            {% endfor %}
+          {% endfor %}
+          {% endif%}
+        </div>
+        {% endfor %}
+        <div class="row mt-4">
+          <div class="col">
+            <button type="submit" class="btn btn-primary btn-block mb-4">Отправить</button>
+            <a class="btn btn-outline-secondary btn-block mb-4" href="{% url "homepage:coffee" %}" role="button">Попить кофе</a>
+          </div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }} d-flex align-items-center"{% endif %} role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use href="{% static "img/icons_messages.svg" %}#check-circle-fill"/></svg>
+          <div>{{ message }}</div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </form>
+      <div class="mx-auto mb-4 rounded-0" style="max-width: 35rem;">
+        {% if form.errors %}
+        {% for field in form %}
+          {% for error in field.errors %}
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use href="{% static "img/icons_messages.svg" %}#exclamation-triangle-fill"/></svg>
+            <div>
+              {{ error|escape }}
+            </div>
+          </div>
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use href="{% static "img/icons_messages.svg" %}#exclamation-triangle-fill"/></svg>
+            <div>
+              {{ error|escape }}
+            </div>
+          </div>
+          {% endfor %}
+        {% endfor %}
+        {% endif%}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

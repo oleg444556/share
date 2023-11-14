@@ -14,7 +14,7 @@ def feedback(request):
     form_personal = forms.FeedbackPersonalForm(request.POST or None)
     form_files = forms.FileFieldForm(request.POST or None)
     context = {
-        "form_text": form,
+        "form": form,
         "form_personal": form_personal,
         "form_files": form_files,
     }

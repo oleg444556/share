@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 import django.contrib.messages
 from django.contrib.sites.shortcuts import get_current_site
 import django.core.mail
-from django.http import HttpResponseNotAllowed
 import django.shortcuts
 import django.template.loader
 from django.urls import reverse
@@ -90,64 +89,3 @@ def user_detail(request, pk):
     )
     context = {"user": user}
     return django.shortcuts.render(request, template, context)
-
-
-def user_profile(request, pk):
-    user = django.shortcuts.get_object_or_404(
-        User.objects.select_related("profile").only(
-            "email",
-            "first_name",
-            "last_name",
-            "profile__birthday",
-            "profile__image",
-            "profile__coffee_count",
-        ),
-        id=pk,
-    )
-    if request.user.is_authenticated and request.user == user:
-        template = "users/profile.html"
-        user_form = users.forms.ProfilePageUserForm(
-            initial={
-                "username": user.username,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email": user.email,
-            },
-            instance=user,
-        )
-        profile_form = users.forms.ProfilePageProfileForm(
-            initial={
-                "birthday": user.profile.birthday,
-            },
-            instance=user.profile,
-        )
-        forms = [user_form, profile_form]
-        context = {"forms": forms, "user": user}
-
-        if request.method == "POST":
-            user_form = users.forms.ProfilePageUserForm(
-                request.POST,
-                instance=user,
-            )
-            profile_form = users.forms.ProfilePageProfileForm(
-                request.POST,
-                request.FILES,
-                instance=user.profile,
-            )
-
-            if user_form.is_valid() and profile_form.is_valid():
-                user_form.save()
-                profile_form.save()
-
-                django.contrib.messages.success(
-                    request,
-                    "Ваш профиль успешно обновлен",
-                )
-
-                return django.shortcuts.redirect("users:profile", pk=user.id)
-
-        return django.shortcuts.render(request, template, context)
-
-    return HttpResponseNotAllowed(
-        "Ой, эта страница недоступна( Похоже вы не зарегестрированы.",
-    )

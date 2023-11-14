@@ -59,17 +59,20 @@ class ProfilePageProfileForm(django.forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
+        self.fields["coffee_count"].widget.attrs["readonly"] = True
 
     class Meta:
         model = users.models.Profile
         fields = (
             users.models.Profile.birthday.field.name,
             users.models.Profile.image.field.name,
+            users.models.Profile.coffee_count.field.name,
         )
-        exclude = (users.models.Profile.coffee_count.field.name,)
 
 
-class ProfilePageUserForm(django.forms.ModelForm):
+class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):
+    password = None
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():

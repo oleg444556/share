@@ -39,6 +39,9 @@ class Profile(django.db.models.Model):
         verbose_name = "дополнительное поле"
         verbose_name_plural = "дополнительные поля"
 
+    def __str__(self):
+        return self.user.username
+
     @property
     def get_image_300x300(self):
         return sorl.thumbnail.get_thumbnail(

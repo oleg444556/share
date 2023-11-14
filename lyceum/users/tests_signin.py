@@ -62,7 +62,7 @@ class SignInTests(django.test.TestCase):
 
         self.assertEqual(User.objects.count(), users_count)
 
-    @django.test.override_settings(DEBUG=False)
+    @django.test.override_settings(DEFAULT_USER_IS_ACTIVE=False)
     def test_activate_signup_user_positive(self):
         user_data = {
             "username": "test_user_1",
@@ -96,7 +96,7 @@ class SignInTests(django.test.TestCase):
         user = User.objects.get(username="test_user_1")
         self.assertTrue(user.is_active)
 
-    @django.test.override_settings(DEBUG=False)
+    @django.test.override_settings(DEFAULT_USER_IS_ACTIVE=False)
     def test_activate_signup_user_negative_time(self):
         user_data = {
             "username": "test_user_1",

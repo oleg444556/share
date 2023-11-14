@@ -38,20 +38,18 @@ class CustomPasswordResetConfirmForm(
 
 
 class CustomUserCreationForm(django.contrib.auth.forms.UserCreationForm):
-    email = django.forms.EmailField(
-        required=True,
-        help_text="На эту почту придет письмо с "
-        "инструкцией по активации аккаунта",
-    )
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
+        self.fields["email"].required = True
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = [
+            User.username.field.name,
+            User.email.field.name,
+        ]
 
 
 class ProfilePageProfileForm(django.forms.ModelForm):
@@ -66,6 +64,7 @@ class ProfilePageProfileForm(django.forms.ModelForm):
             users.models.Profile.birthday.field.name,
             users.models.Profile.image.field.name,
         )
+        exclude = (users.models.Profile.coffee_count.field.name,)
 
 
 class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):
@@ -83,3 +82,6 @@ class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):
             User.last_name.field.name,
             User.email.field.name,
         )
+        help_texts = {
+            User.email.field.name: "Ваша почта",
+        }

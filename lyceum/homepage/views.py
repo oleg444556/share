@@ -54,7 +54,7 @@ def echo_submit(request):
     return HttpResponseBadRequest("Неверный формат формы")
 
 
-@login_required
+@login_required()
 def profile(request, pk):
     user = django.shortcuts.get_object_or_404(
         User.objects.select_related("profile").only(
@@ -63,6 +63,7 @@ def profile(request, pk):
             "last_name",
             "profile__birthday",
             "profile__image",
+            "profile__coffee_count",
         ),
         id=pk,
     )
@@ -98,9 +99,7 @@ def profile(request, pk):
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.coffee_count = user.profile.coffee_count
-            profile.save()
+            profile_form.save()
 
             django.contrib.messages.success(
                 request,

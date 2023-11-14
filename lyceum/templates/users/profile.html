@@ -14,7 +14,7 @@
           {% else %}
           <img src="{% static "img/default_img.png" %}" alt="User Image" class="rounded-circle img-fluid" style="width: 150px;">
           {% endif %}
-          <h5 class="my-3">{{user}}</h5>
+          <h5 class="my-3">{{ user.username }}</h5>
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@
               </span>
             {% endif %}
           {% endfor %}
+          </div>
         <div class="mx-auto mb-4 rounded-0" style="max-width: 35rem;">
           {% if form.errors %}
           {% for field in form %}
@@ -59,6 +60,7 @@
           <div class="col">
             <button type="submit" class="btn btn-primary btn-block mb-4">Отправить</button>
             <a class="btn btn-outline-secondary btn-block mb-4" href="{% url "homepage:coffee" %}" role="button">Попить кофе</a>
+            </h5>Выпито кофе: {{ user.profile.coffee_count }}</h5>
           </div>
         </div>
         {% if messages %}

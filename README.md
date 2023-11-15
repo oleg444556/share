@@ -36,6 +36,7 @@ DJANGO_DEBUG=True
 DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
 DJANGO_ALLOW_REVERSE=True
 DJANGO_MAIL=example@mail.com
+DEFAULT_USER_IS_ACTIVE=False
 ```
 
 - Пример файла с переменными окружения .env.example

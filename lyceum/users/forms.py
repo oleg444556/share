@@ -44,7 +44,7 @@ class CustomUserCreationForm(django.contrib.auth.forms.UserCreationForm):
             field.field.widget.attrs["class"] = "form-control"
         self.fields["email"].required = True
 
-    class Meta:
+    class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
         model = User
         fields = (
             User.username.field.name,
@@ -79,7 +79,7 @@ class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
 
-    class Meta:
+    class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
         model = User
         fields = (
             User.first_name.field.name,

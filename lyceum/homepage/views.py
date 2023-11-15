@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+import django.contrib.auth.decorators
 from django.contrib.auth.models import User
 import django.db
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -54,7 +54,7 @@ def echo_submit(request):
     return HttpResponseBadRequest("Неверный формат формы")
 
 
-@login_required
+@django.contrib.auth.decorators.login_required
 def profile(request):
     user = (
         User.objects.select_related("profile")

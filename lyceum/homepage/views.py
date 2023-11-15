@@ -59,46 +59,31 @@ def profile(request):
     user = (
         User.objects.select_related("profile")
         .only(
+            "username",
             "email",
             "first_name",
             "last_name",
-            "profile__birthday",
             "profile__image",
             "profile__coffee_count",
+            "profile__birthday",
         )
         .get(id=request.user.id)
     )
 
     template = "users/profile.html"
     user_form = users.forms.ProfilePageUserForm(
-        initial={
-            "username": user.username,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-        },
+        request.POST or None,
         instance=user,
     )
     profile_form = users.forms.ProfilePageProfileForm(
-        initial={
-            "birthday": user.profile.birthday,
-        },
+        request.POST or None,
+        request.FILES or None,
         instance=user.profile,
     )
     forms = [user_form, profile_form]
     context = {"forms": forms, "user": user}
 
     if request.method == "POST":
-        user_form = users.forms.ProfilePageUserForm(
-            request.POST,
-            instance=user,
-        )
-        profile_form = users.forms.ProfilePageProfileForm(
-            request.POST,
-            request.FILES,
-            instance=user.profile,
-        )
-
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()

@@ -1,4 +1,3 @@
-import django.contrib.auth.decorators
 import django.db
 from django.http import HttpResponse, HttpResponseBadRequest
 import django.shortcuts
@@ -51,35 +50,3 @@ def echo_submit(request):
             return django.shortcuts.render(request, template, context)
 
     return HttpResponseBadRequest("Неверный формат формы")
-
-
-@django.contrib.auth.decorators.login_required
-def profile(request):
-    template = "users/profile.html"
-    user_form = users.forms.UserChangeForm(
-        request.POST or None,
-        instance=request.user,
-    )
-    profile_form = users.forms.ProfileChangeForm(
-        request.POST or None,
-        request.FILES or None,
-        instance=request.user.profile,
-    )
-    forms = (user_form, profile_form)
-    context = {"forms": forms}
-
-    if request.method == "POST":
-        if all(lambda x: x.is_valid() for x in forms):
-            user_form.save()
-            profile_form.save()
-
-            django.contrib.messages.success(
-                request,
-                "Ваш профиль успешно обновлен",
-            )
-
-            return django.shortcuts.redirect(
-                "users:profile",
-            )
-
-    return django.shortcuts.render(request, template, context)

@@ -1,5 +1,4 @@
 import django.contrib.auth.decorators
-from django.contrib.auth.models import User
 import django.db
 from django.http import HttpResponse, HttpResponseBadRequest
 import django.shortcuts
@@ -56,34 +55,21 @@ def echo_submit(request):
 
 @django.contrib.auth.decorators.login_required
 def profile(request):
-    user = django.shortcuts.get_object_or_404(
-        User.objects.select_related("profile").only(
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-            "profile__image",
-            "profile__coffee_count",
-            "profile__birthday",
-        ),
-        id=request.user.id,
-    )
-
     template = "users/profile.html"
     user_form = users.forms.ProfilePageUserForm(
         request.POST or None,
-        instance=user,
+        instance=request.user,
     )
     profile_form = users.forms.ProfilePageProfileForm(
         request.POST or None,
         request.FILES or None,
-        instance=user.profile,
+        instance=request.user.profile,
     )
-    forms = [user_form, profile_form]
-    context = {"forms": forms, "user": user}
+    forms = (user_form, profile_form)
+    context = {"forms": forms}
 
     if request.method == "POST":
-        if user_form.is_valid() and profile_form.is_valid():
+        if all(map(lambda x: x.is_valid(), forms)):
             user_form.save()
             profile_form.save()
 

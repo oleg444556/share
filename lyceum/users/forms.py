@@ -55,7 +55,7 @@ class CustomUserCreationForm(django.contrib.auth.forms.UserCreationForm):
         }
 
 
-class ProfilePageProfileForm(django.forms.ModelForm):
+class ProfileChangeForm(django.forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
@@ -71,13 +71,14 @@ class ProfilePageProfileForm(django.forms.ModelForm):
         )
 
 
-class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):
+class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
     password = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
+        self.fields["email"].required = True
 
     class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
         model = User

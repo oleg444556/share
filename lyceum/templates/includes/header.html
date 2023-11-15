@@ -24,6 +24,7 @@
         <li class="nav-item"><a href="{% url "feedback:feedback" %}" class="nav-link {% if view_name == "feedback:feedback" %}active disabled{% endif %}">{% translate "Обратная связь" %}</a></li>
         <li class="nav-item"><a href="{% url "about:about" %}" class="nav-link {% if view_name == "about:about" %}active disabled{% endif %}">{% translate "О проекте" %}</a></li>
         {% if request.user.is_authenticated %}
+          <li class="nav-item"><a href="{% url "users:profile" %}" class="nav-link">{% translate "Профиль" %}</a></li>
           {% if request.user.is_superuser %}
           <li class="nav-item"><a href="{% url "admin:index" %}" class="nav-link">{% translate "Админка" %}</a></li>
           {% endif %}

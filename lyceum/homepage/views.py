@@ -56,11 +56,11 @@ def echo_submit(request):
 @django.contrib.auth.decorators.login_required
 def profile(request):
     template = "users/profile.html"
-    user_form = users.forms.ProfilePageUserForm(
+    user_form = users.forms.UserChangeForm(
         request.POST or None,
         instance=request.user,
     )
-    profile_form = users.forms.ProfilePageProfileForm(
+    profile_form = users.forms.ProfileChangeForm(
         request.POST or None,
         request.FILES or None,
         instance=request.user.profile,

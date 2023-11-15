@@ -66,7 +66,7 @@ def profile(request):
             "profile__coffee_count",
             "profile__birthday",
         ),
-        username=request.user.username,
+        id=request.user.id,
     )
 
     template = "users/profile.html"

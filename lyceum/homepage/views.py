@@ -5,8 +5,6 @@ from django.views.decorators.http import require_GET, require_POST
 
 import catalog.models
 from homepage import forms
-import users.forms
-import users.models
 
 __all__ = []
 
@@ -22,11 +20,8 @@ def home(request):
 
 def coffee_endpoint(request):
     if request.user.is_authenticated:
-        profile = users.models.Profile.objects.select_related("user").get(
-            user=request.user,
-        )
-        profile.coffee_count += 1
-        profile.save()
+        request.user.profile.coffee_count += 1
+        request.user.profile.save()
     return HttpResponse("Я чайник", status=418)
 
 

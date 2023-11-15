@@ -56,9 +56,8 @@ def echo_submit(request):
 
 @django.contrib.auth.decorators.login_required
 def profile(request):
-    user = (
-        User.objects.select_related("profile")
-        .only(
+    user = django.shortcuts.get_object_or_404(
+        User.objects.select_related("profile").only(
             "username",
             "email",
             "first_name",
@@ -66,8 +65,8 @@ def profile(request):
             "profile__image",
             "profile__coffee_count",
             "profile__birthday",
-        )
-        .get(id=request.user.id)
+        ),
+        username=request.user.username,
     )
 
     template = "users/profile.html"

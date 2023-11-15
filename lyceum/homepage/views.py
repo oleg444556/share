@@ -54,19 +54,21 @@ def echo_submit(request):
     return HttpResponseBadRequest("Неверный формат формы")
 
 
-@login_required()
-def profile(request, pk):
-    user = django.shortcuts.get_object_or_404(
-        User.objects.select_related("profile").only(
+@login_required
+def profile(request):
+    user = (
+        User.objects.select_related("profile")
+        .only(
             "email",
             "first_name",
             "last_name",
             "profile__birthday",
             "profile__image",
             "profile__coffee_count",
-        ),
-        id=pk,
+        )
+        .get(id=request.user.id)
     )
+
     template = "users/profile.html"
     user_form = users.forms.ProfilePageUserForm(
         initial={
@@ -108,7 +110,6 @@ def profile(request, pk):
 
             return django.shortcuts.redirect(
                 "users:profile",
-                pk=user.id,
             )
 
     return django.shortcuts.render(request, template, context)

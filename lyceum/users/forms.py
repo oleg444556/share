@@ -46,10 +46,13 @@ class CustomUserCreationForm(django.contrib.auth.forms.UserCreationForm):
 
     class Meta:
         model = User
-        fields = [
+        fields = (
             User.username.field.name,
             User.email.field.name,
-        ]
+        )
+        field_classes = {
+            User.username.field.name: django.contrib.auth.forms.UsernameField,
+        }
 
 
 class ProfilePageProfileForm(django.forms.ModelForm):
@@ -57,14 +60,15 @@ class ProfilePageProfileForm(django.forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
+        self.fields["coffee_count"].disabled = True
 
     class Meta:
         model = users.models.Profile
         fields = (
             users.models.Profile.birthday.field.name,
             users.models.Profile.image.field.name,
+            users.models.Profile.coffee_count.field.name,
         )
-        exclude = (users.models.Profile.coffee_count.field.name,)
 
 
 class ProfilePageUserForm(django.contrib.auth.forms.UserChangeForm):

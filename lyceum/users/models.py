@@ -68,7 +68,7 @@ class Profile(django.db.models.Model):
 
 class User(DjangoUser):
     objects = CustomUserManager()
-    if "makemigrations" not in sys.argv[1:]:
+    if "makemigrations" not in sys.argv and "migrate" not in sys.argv:
         DjangoUser._meta.get_field("email")._unique = True
 
     class Meta:

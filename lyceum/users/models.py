@@ -1,8 +1,23 @@
+import sys
+
 from django.conf import settings
+from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import User as DjangoUser
 import django.db
 import sorl.thumbnail
 
 __all__ = ["Profile"]
+
+
+class CustomUserManager(BaseUserManager):
+    def get_queryset(self):
+        return super().get_queryset().select_related("profile")
+
+    def active(self):
+        return self.filter(is_active=True)
+
+    def by_mail(self, email):
+        return self.filter(email=email).first()
 
 
 class Profile(django.db.models.Model):
@@ -49,3 +64,12 @@ class Profile(django.db.models.Model):
             "150x150",
             quality=65,
         )
+
+
+class User(DjangoUser):
+    objects = CustomUserManager()
+    if "makemigrations" not in sys.argv[1:]:
+        DjangoUser._meta.get_field("email")._unique = True
+
+    class Meta:
+        proxy = True

@@ -14,6 +14,17 @@ __all__ = []
 
 
 class SignInTests(django.test.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # Создаем тестового пользователя для проверки авторизации
+        cls.test_user = User.objects.create_user(
+            username="testuser",
+            password="testpassword",
+            email="testmail@bk.ru",
+            is_active=True,
+        )
+
     def test_signin_positive(self):
         user_data = {
             "username": "test_user_1",
@@ -133,3 +144,29 @@ class SignInTests(django.test.TestCase):
 
             user = User.objects.get(username="test_user_1")
             self.assertFalse(user.is_active)
+
+    def test_able_to_login_mail(self):
+        self.assertTrue(
+            self.test_user.is_active,
+            msg="Тестовый пользователь не активен",
+        )
+
+        response = django.test.Client().post(
+            reverse("users:login"),
+            data={"username": "testmail@bk.ru", "password": "testpassword"},
+            follow=True,
+        )
+        self.assertTrue(response.context["user"].is_authenticated)
+
+    def test_able_to_login_username(self):
+        self.assertTrue(
+            self.test_user.is_active,
+            msg="Тестовый пользователь не активен",
+        )
+
+        response = django.test.Client().post(
+            reverse("users:login"),
+            data={"username": "testuser", "password": "testpassword"},
+            follow=True,
+        )
+        self.assertTrue(response.context["user"].is_authenticated)

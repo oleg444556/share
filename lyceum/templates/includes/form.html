@@ -1,0 +1,11 @@
+{% for field in form.visible_fields %}
+<div class="form-outline mb-4">
+  <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+  {{ field }}
+  {% if field.help_text %}
+    <span class="form-text">
+      {{ field.help_text|safe  }}
+    </span>
+  {% endif %}
+{% endfor %}
+</div>

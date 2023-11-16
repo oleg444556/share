@@ -108,7 +108,7 @@ def profile(request):
     context = {"forms": forms}
 
     if request.method == "POST":
-        if all(lambda x: x.is_valid() for x in forms):
+        if all(form.is_valid() for form in forms):
             user_form.save()
             profile_form.save()
 

@@ -66,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "lyceum.middleware.CustomUserMiddleware",
 ]
 if DEBUG:
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
@@ -170,3 +171,8 @@ EMAIL_FILE_PATH = BASE_DIR / "send_mail"
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/logout/"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "users.backends.EmailBackend",
+]

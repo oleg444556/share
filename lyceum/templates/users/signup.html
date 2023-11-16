@@ -10,7 +10,7 @@
 <section class="w-100 p-4 d-flex justify-content-center pb-4">
   <form method="post">
     {% csrf_token %}
-    {% include "includes/form.html "%}
+    {% include "includes/form_for_page.html" %}
     <div class="row mt-4">
       <div class="col">
         <button type="submit" class="btn btn-primary btn-block mb-4">Отправить</button>
@@ -26,5 +26,5 @@
     {% endif %}
   </form>
 </section>
-{% include "includes/form_errors.html "%}
+{% include "includes/form_errors.html" %}
 {% endblock %}

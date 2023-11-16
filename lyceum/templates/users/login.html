@@ -5,7 +5,7 @@
 <section class="w-100 p-4 d-flex justify-content-center pb-4">
   <form method="post">
     {% csrf_token %}
-    {% include "includes/form.html "%}
+    {% include "includes/form_for_page.html" %}
     <div class="row mb-4">
       <div class="col">
         <a href="{% url "users:password_reset"%}" class="link-secondary link-underline link-underline-opacity-0">Забыли пароль?</a>
@@ -17,5 +17,5 @@
     </div>
   </form>
 </section>
-{% include "includes/form_errors.html "%}
+{% include "includes/form_errors.html" %}
 {% endblock %}

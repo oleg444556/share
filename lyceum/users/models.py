@@ -1,23 +1,43 @@
+import re
 import sys
 
 from django.conf import settings
-from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import User as DjangoUser
+from django.contrib.auth.models import UserManager
+import django.core.validators
 import django.db
 import sorl.thumbnail
 
 __all__ = ["Profile"]
 
 
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(UserManager):
     def get_queryset(self):
         return super().get_queryset().select_related("profile")
 
     def active(self):
-        return self.filter(is_active=True)
+        return self.get_queryset().filter(is_active=True)
 
     def by_mail(self, email):
-        return self.filter(email=email).first()
+        return self.get_queryset().get(email=email)
+
+    @classmethod
+    def normalize_email(cls, email):
+        email = super().normalize_email(email)
+
+        email = re.sub(r"\+.*@", "@", email)
+        email = email.replace("yandex.ru", "ya.ru")
+        email = email.lower()
+        if "@gmail.com" in email:
+            username, domain = email.split("@")
+            username = username.replace(".", "")
+            return f"{username}@{domain}"
+        if "@ya.ru" in email:
+            username, domain = email.split("@")
+            username = username.replace(".", "")
+            return f"{username}@{domain}"
+
+        return email
 
 
 class Profile(django.db.models.Model):
@@ -49,6 +69,18 @@ class Profile(django.db.models.Model):
         help_text="Количество переходов по /coffee/",
         default=0,
     )
+    attempts_count = django.db.models.PositiveIntegerField(
+        "попытки входа",
+        help_text="Число неудачных попыток входа",
+        default=0,
+    )
+    reactivation_time = django.db.models.DateTimeField(
+        "время деактивации аккаунта",
+        help_text="Время преодоления порога максимального"
+        " числа неудачных попыток войти",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "дополнительное поле"
@@ -73,3 +105,21 @@ class User(DjangoUser):
 
     class Meta:
         proxy = True
+
+    def clean(self):
+        self.email = User.objects.normalize_email(self.email)
+        if (
+            type(self)
+            .objects.filter(email=self.email)
+            .exclude(id=self.id)
+            .count()
+            > 0
+        ):
+            raise django.core.exceptions.ValidationError(
+                "Почта уже существует",
+            )
+        super().clean()
+
+    def save(self, *args, **kwargs):
+        self.email = User.objects.normalize_email(self.email)
+        super().save(*args, **kwargs)

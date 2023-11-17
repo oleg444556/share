@@ -1,5 +1,4 @@
 import django.contrib.auth.forms
-from django.contrib.auth.models import User
 import django.forms
 
 import users.models
@@ -45,14 +44,11 @@ class CustomUserCreationForm(django.contrib.auth.forms.UserCreationForm):
         self.fields["email"].required = True
 
     class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
-        model = User
+        model = users.models.User
         fields = (
-            User.username.field.name,
-            User.email.field.name,
+            users.models.User.username.field.name,
+            users.models.User.email.field.name,
         )
-        field_classes = {
-            User.username.field.name: django.contrib.auth.forms.UsernameField,
-        }
 
 
 class ProfileChangeForm(django.forms.ModelForm):
@@ -81,12 +77,12 @@ class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
         self.fields["email"].required = True
 
     class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
-        model = User
+        model = users.models.User
         fields = (
-            User.first_name.field.name,
-            User.last_name.field.name,
-            User.email.field.name,
+            users.models.User.first_name.field.name,
+            users.models.User.last_name.field.name,
+            users.models.User.email.field.name,
         )
         help_texts = {
-            User.email.field.name: "Ваша почта",
+            users.models.User.email.field.name: "Ваша почта",
         }

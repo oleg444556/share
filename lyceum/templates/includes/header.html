@@ -23,6 +23,7 @@
         </li>
         <li class="nav-item"><a href="{% url "feedback:feedback" %}" class="nav-link {% if view_name == "feedback:feedback" %}active disabled{% endif %}">{% translate "Обратная связь" %}</a></li>
         <li class="nav-item"><a href="{% url "about:about" %}" class="nav-link {% if view_name == "about:about" %}active disabled{% endif %}">{% translate "О проекте" %}</a></li>
+        <li class="nav-item"><a href="{% url "users:user_list" %}" class="nav-link {% if view_name == "users:user_list" %}active disabled{% endif %}">{% translate "Пользователи" %}</a></li>
         {% if request.user.is_authenticated %}
           <li class="nav-item"><a href="{% url "users:profile" %}" class="nav-link {% if view_name == "users:profile" %}active disabled{% endif %}">{% translate "Профиль" %}</a></li>
           {% if request.user.is_superuser %}
@@ -30,7 +31,7 @@
           {% endif %}
           <form id="logout-form" method="post" action="{% url "users:logout" %}">
             {% csrf_token %}
-            <input class="btn btn-outline-primary" type="submit" value="{% translate "Выйти" %}">
+            <input class="btn btn-outline-primary mx-1" type="submit" value="{% translate "Выйти" %}">
           </form>
         {% else %}
           <li class="nav-item"><a href="{% url "users:login" %}" class="nav-link {% if view_name == "users:login" %}active disabled{% endif %}">{% translate "Вход" %}</a></li>

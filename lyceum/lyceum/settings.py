@@ -14,6 +14,7 @@ env = environ.Env(
     DJANGO_ALLOW_REVERSE=(bool, True),
     DJANGO_MAIL=(str, "example@bk.ru"),
     DEFAULT_USER_IS_ACTIVE=(str),
+    MAX_AUTH_ATTEMPTS=(int, 5),
 )
 environ.Env.read_env(BASE_DIR / ".env")
 
@@ -35,6 +36,8 @@ DEFAULT_USER_IS_ACTIVE = (
     in TRUE_DEF
     else False
 )
+
+MAX_AUTH_ATTEMPTS = env("MAX_AUTH_ATTEMPTS")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -173,6 +176,6 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/logout/"
 
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
+    "users.backends.UserBackend",
     "users.backends.EmailBackend",
 ]

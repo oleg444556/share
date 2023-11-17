@@ -74,4 +74,5 @@ urlpatterns = [
     path("user_list/", users.views.user_list, name="user_list"),
     path("user_list/<int:pk>/", users.views.user_detail, name="user_detail"),
     path("profile/", users.views.profile, name="profile"),
+    path("reactivate/<str:user>/", users.views.reactivate, name="reactivate"),
 ]

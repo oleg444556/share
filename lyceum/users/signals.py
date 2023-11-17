@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from users.models import Profile
+from users.models import Profile, User
 
 __all__ = ["create_user_profile", "save_user_profile"]
 

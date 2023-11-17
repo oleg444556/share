@@ -2,7 +2,6 @@ from datetime import timedelta
 
 from django.conf import settings
 import django.contrib.auth.decorators
-from django.contrib.auth.models import User
 import django.contrib.messages
 from django.contrib.sites.shortcuts import get_current_site
 import django.core.mail
@@ -12,6 +11,7 @@ from django.urls import reverse
 import django.utils.timezone
 
 import users.forms
+from users.models import User
 
 __all__ = []
 
@@ -121,4 +121,30 @@ def profile(request):
                 "users:profile",
             )
 
+    return django.shortcuts.render(request, template, context)
+
+
+def reactivate(request, user):
+    template = "users/activate.html"
+    user = User.objects.get(username=user)
+    try:
+        if (
+            django.utils.timezone.now() - user.profile.reactivation_time
+            < timedelta(
+                days=7,
+            )
+        ):
+            user.is_active = True
+            user.profile.attempts_count = 0
+            user.save()
+            user.profile.save()
+            activate_message = (
+                "Поздравляем, вы успешно реактивировали свой аккаунт"
+            )
+        else:
+            activate_message = "Это трагедия, срок действия ссылки истёк :("
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        activate_message = "Что то пошло не так"
+
+    context = {"activate_message": activate_message}
     return django.shortcuts.render(request, template, context)

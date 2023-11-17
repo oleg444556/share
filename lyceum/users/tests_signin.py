@@ -1,7 +1,6 @@
 from datetime import timedelta
 from unittest.mock import patch
 
-from django.contrib.auth.models import User
 import django.core.exceptions
 import django.db
 import django.test
@@ -9,6 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 import users.forms
+from users.models import User
 
 __all__ = []
 
@@ -21,7 +21,7 @@ class SignInTests(django.test.TestCase):
         cls.test_user = User.objects.create_user(
             username="testuser",
             password="testpassword",
-            email="testmail@bk.ru",
+            email="testmail@yandex.ru",
             is_active=True,
         )
 
@@ -153,7 +153,10 @@ class SignInTests(django.test.TestCase):
 
         response = django.test.Client().post(
             reverse("users:login"),
-            data={"username": "testmail@bk.ru", "password": "testpassword"},
+            data={
+                "username": "testmail@yandex.ru",
+                "password": "testpassword",
+            },
             follow=True,
         )
         self.assertTrue(response.context["user"].is_authenticated)

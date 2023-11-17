@@ -176,6 +176,5 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/auth/logout/"
 
 AUTHENTICATION_BACKENDS = [
-    "users.backends.UserBackend",
     "users.backends.EmailBackend",
 ]

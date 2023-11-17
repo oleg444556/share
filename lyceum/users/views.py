@@ -49,8 +49,8 @@ def sign_up(request):
 
 def activate(request, user):
     template = "users/activate.html"
-    user = User.objects.get(username=user)
     try:
+        user = User.objects.get(username=user)
         if django.utils.timezone.now() - user.date_joined < timedelta(
             hours=12,
         ):
@@ -126,8 +126,8 @@ def profile(request):
 
 def reactivate(request, user):
     template = "users/activate.html"
-    user = User.objects.get(username=user)
     try:
+        user = User.objects.get(username=user)
         if (
             django.utils.timezone.now() - user.profile.reactivation_time
             < timedelta(

@@ -1,4 +1,3 @@
-import re
 import sys
 
 from django.conf import settings
@@ -24,8 +23,10 @@ class CustomUserManager(UserManager):
     @classmethod
     def normalize_email(cls, email):
         email = super().normalize_email(email)
-
-        email = re.sub(r"\+.*@", "@", email)
+        if "+" in email:
+            email = (
+                email.split("@")[0].split("+")[0] + "@" + email.split("@")[1]
+            )
         email = email.replace("yandex.ru", "ya.ru")
         email = email.lower()
         if "@gmail.com" in email:
@@ -34,7 +35,7 @@ class CustomUserManager(UserManager):
             return f"{username}@{domain}"
         if "@ya.ru" in email:
             username, domain = email.split("@")
-            username = username.replace(".", "")
+            username = username.replace(".", "-")
             return f"{username}@{domain}"
 
         return email

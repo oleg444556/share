@@ -1,6 +1,7 @@
 from datetime import timedelta
 from unittest.mock import patch
 
+from django.conf import settings
 import django.core.exceptions
 import django.db
 import django.test
@@ -173,3 +174,63 @@ class SignInTests(django.test.TestCase):
             follow=True,
         )
         self.assertTrue(response.context["user"].is_authenticated)
+
+    def test_mail_normalization(self):
+        mails = (
+            ("test@yandex.ru", "test@ya.ru"),
+            ("test+test@gmail.com", "test@gmail.com"),
+            ("t.e.s.t@gmail.com", "test@gmail.com"),
+            ("TeSt@mail.ru", "test@mail.ru"),
+            ("te.st@ya.ru", "te-st@ya.ru"),
+        )
+        for i, mail in enumerate(mails):
+            with self.subTest(test_mail=mail[0], result=mail[1]):
+                self.user = User.objects.create_user(
+                    username=f"testuser{i}",
+                    password="testpassword",
+                    email=mail[0],
+                )
+
+                self.assertEqual(
+                    self.user.email,
+                    mail[1],
+                    msg="Почты не совпадают",
+                )
+
+    def test_blocking_user_too_many_attempts(self):
+        self.user = User.objects.create_user(
+            username="testuser0",
+            password="testpassword",
+            email="testing@mail.com",
+            is_active=True,
+        )
+
+        self.assertTrue(
+            self.user.is_active,
+            msg="Тестовый пользователь не активен",
+        )
+
+        for _ in range(settings.MAX_AUTH_ATTEMPTS):
+            django.test.Client().post(
+                reverse("users:login"),
+                data={
+                    "username": "testuser0",
+                    "password": "testpasswo",
+                },
+                follow=True,
+            )
+
+        self.user = User.objects.get(username="testuser0")
+        self.assertFalse(
+            self.user.is_active,
+            msg="Тестовый пользователь активен",
+        )
+
+        django.test.Client().get(
+            reverse("users:reactivate", args=["testuser0"]),
+        )
+        self.user = User.objects.get(username="testuser0")
+        self.assertTrue(
+            self.user.is_active,
+            msg="Тестовый пользователь не активен",
+        )
